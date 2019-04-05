@@ -1,0 +1,168 @@
+﻿@model eProject3.Models.Course
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<h2>Index</h2>
+<a href="#" class="btn btn-info" onclick="AddNewCourse(0)">Add New Course</a> <br /><br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Desctiption</th>
+            <th>Duration</th>
+            <th>Start date</th>
+            <th>End date</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody id="SetCourseList">
+        <tr id="LoadingStatus" style="color:red"></tr>
+    </tbody>
+</table>
+@*Create A Popup Modal With Registration Form For Add Or Edit Student Record*@
+<div class="modal fade" id="MyModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="ModalTitle"></h4>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                <form id="form" enctype="multipart/form-data">
+                    <fieldset id="SubmitForm">
+                        @*@Html.EditorFor(model => model.ClassPaymentDeadline, new { htmlAttributes = new { @id = "ClassPaymentDeadline", @class = "form-control", @type = "text", @placeholder = "Payment Deadline", @onfocus = "(this.type='date')", @onblur = "(this.type='text')" } })*@
+                        @Html.HiddenFor(m => m.CourseID, new { @id = "CouId" })
+                        <div class="form-group">
+                            @Html.EditorFor(m => m.CourseName, new { htmlAttributes = new { @id = "CouName", @class = "form-control", @placeholder = "Name*" } })
+                        </div>
+                        <div class="form-group">
+                            @Html.EditorFor(m => m.CourseDesctiption, new { htmlAttributes = new { @id = "CouDes", @class = "form-control", @placeholder = "Des*" } })
+                        </div>
+                        <div class="form-group">
+                            @Html.EditorFor(m => m.CourseDuration, new { htmlAttributes = new { @id = "CouDur", @class = "form-control", @placeholder = "Dur*" } })
+                        </div>
+                        <div class="form-group">
+                            @Html.EditorFor(m => m.CourseStartDate, new { htmlAttributes = new { @id = "CouSt", @class = "form-control", @type = "text", @placeholder = "Start*", @onfocus = "(this.type='date')", @onblur = "(this.type='text')" } })
+                        </div>
+                        <div class="form-group">
+                            @Html.EditorFor(m => m.CourseEndDate, new { htmlAttributes = new { @id = "CouEn", @class = "form-control", @type = "text", @placeholder = "End*", @onfocus = "(this.type='date')", @onblur = "(this.type='text')" } })
+                        </div>
+                        <div class="form-group">
+                            @Html.EditorFor(m => m.CourseImage, new { htmlAttributes = new { @id = "CouImg", @class = "form-control", @type = "file", @placeholder = "Img*" } })
+                        </div>
+                        <div class="form-group">
+                            <a href="#" class="btn btn-block btn-danger" id="SaveCourseRecord">Save</a>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@*Create A PopUp Modal For DeleteConfirmation*@
+<div class="modal fade" id="DeleteConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Delete Course Record</h4>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                <h4>Are You Sure? You Want To Delete This Record.</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary" data-dismiss="modal" id="r">Cancle</a>
+                <a href="#" class="btn btn-danger" onclick="ConfirmDelete()">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#LoadingStatus").html("Loading....");
+    $.get("/Admin/Courses/GetCourseList", null, DataBind);
+    function DataBind(CourseList) {
+        //This Code For Receive All Data From Controller And Show It In Client Side
+        var SetData = $("#SetCourseList");
+        for (var i = 0; i < CourseList.length; i++) {
+            var Data = "<tr class='row_" + CourseList[i].CourseID + "'>" +
+                "<td>" + CourseList[i].CourseName + "</td>" +
+                "<td>" + CourseList[i].CourseDesctiption + "</td>" +
+                "<td>" + CourseList[i].CourseDuration + "</td>" +
+                "<td>" + CourseList[i].CourseStartDate + "</td>" +
+                "<td>" + CourseList[i].CourseEndDate + "</td>" +
+                "<td>" + CourseList[i].CourseImage + "</td>" +
+                "<td>" + "<a href='#' class='btn btn-warning' onclick='EditCourseRecord(" + CourseList[i].CourseID + ")' ><span class='glyphicon glyphicon-edit'>Edit</span></a>" + "</td>" +
+                "<td>" + "<a href='#' class='btn btn-danger' onclick='DeleteCourseRecord(" + CourseList[i].CourseID + ")'><span class='glyphicon glyphicon-trash'>Delete</span></a>" + "</td>" +
+                "</tr>";
+            SetData.append(Data);
+            $("#LoadingStatus").html(" ");
+
+        }
+    }
+
+    //Show The Popup Modal For Add New Student
+
+    function AddNewCourse(CourseId) {
+        $("#form")[0].reset();
+        $("#CouId").val(0);
+        $("#ModalTitle").html("Add New Course");
+        $("#MyModal").modal();
+    }
+
+    //Show The Popup Modal For Edit Student Record
+
+    function EditCourseRecord(CourseId) {
+        var url = "/Admin/Courses/GetCourseById?CourseID=" + CourseId;
+        $("#ModalTitle").html("Update Course Record");
+        $("#MyModal").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $("#CouId").val(obj.CourseID);
+                $("#CouName").val(obj.CourseName);
+                $("#CouDes").val(obj.CourseDesctiption);
+                $("#CouDur").val(obj.CourseDuration);
+                $("#CouSt").val(obj.CourseStartDate);
+                $("#CouEn").val(obj.CourseEndDate);
+                $("#CouImg").val(obj.CourseImage);
+            }
+        })
+    }
+
+    $("#SaveCourseRecord").click(function () {
+        var data = $("#SubmitForm").serialize();
+        $.ajax({
+            type: "Post",
+            url: "/Admin/Courses/SaveData",
+            data: data,
+            success: function (result) {
+                alert("Success!..");
+                window.location.href = "/Admin/Courses/Index";
+                $("#MyModal").modal("hide");
+            }
+        })
+    })
+
+    //Show The Popup Modal For DeleteComfirmation
+    var DeleteCourseRecord = function (CourseId) {
+        $("#CouId").val(CourseId);
+        $("#DeleteConfirmation").modal("show");
+    }
+    var ConfirmDelete = function () {
+        var CouId = $("#CouId").val();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Courses/DeleteCourseRecord?CourseID=" + CouId,
+            success: function (result) {
+                $("#DeleteConfirmation").modal("hide");
+                $(".row_" + CouId).remove();
+            }
+        })
+    }
+</script>

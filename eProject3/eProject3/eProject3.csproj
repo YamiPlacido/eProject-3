@@ -134,6 +134,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CoursesController.cs" />
     <Compile Include="Controllers\AboutUsController.cs" />
     <Compile Include="Controllers\ContactUsController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Models\Class.cs" />
     <Compile Include="Models\ContactUs.cs" />
     <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\CourseDTO.cs" />
     <Compile Include="Models\CourseStudent.cs" />
     <Compile Include="Models\Credential.cs" />
     <Compile Include="Models\EntranceExam.cs" />
@@ -183,6 +185,11 @@
     <Content Include="Areas\Admin\Views\Admins\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Admins\Login.cshtml" />
     <Content Include="Areas\Admin\Views\Admins\Register.cshtml" />
+    <Content Include="Areas\Admin\Views\Courses\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Courses\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Courses\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Courses\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Courses\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

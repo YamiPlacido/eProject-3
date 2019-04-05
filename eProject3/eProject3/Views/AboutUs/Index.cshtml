@@ -12,18 +12,27 @@
         <div class="col-md-12">
             <div class="media-container-row">
                 <div class="mbr-figure m-auto" style="width: 50%;">
+                    <!-- Company image -->
                     <img src="~/Assets/client/assets/images/background9.jpg" alt="Mobirise" title="">
                 </div>
+                <!-- Data input / config -->
+
                 <div class=" align-left aside-content">
                     <h2 class="mbr-title pt-2 mbr-fonts-style display-2">
-                        Image with content
+                        <!-- Header -->
+                        About Us
                     </h2>
-                    <div class="mbr-section-text">
-                        <p class="mbr-text mb-5 pt-3 mbr-light mbr-fonts-style display-5">
-                            Click any text or icon to edit or style it. Use the block parameters to hide/show text or icons and change media size or position.
-                        </p>
-                    </div>
+                    @foreach (var item in Model)
+                    {
+                        <div class="mbr-section-text">
+                            <p class="mbr-text mb-5 pt-3 mbr-light mbr-fonts-style display-5">
+                                <!-- Aintroduction field -->
+                                @Html.DisplayFor(modelItem => item.Aintroduction)
+                            </p>
+                        </div>
+                    }
                     <div class="block-content">
+                        <!-- Data block  -->
                         <div class="card p-3 pr-3">
                             <div class="media">
                                 <div class=" align-self-center card-img pb-3">
@@ -31,41 +40,31 @@
                                 </div>
                                 <div class="media-body">
                                     <h4 class="card-title mbr-fonts-style display-7">
-                                        Over 400 Amazing Blocks
+                                        Our service
                                     </h4>
                                 </div>
                             </div>
-                            <div class="card-box">
-                                <p class="block-text mbr-fonts-style display-7">
-                                    Mobirise offers several themes that include sliders, galleries, article blocks, counters, accordions, video, animated text, live filtered tables, shop, contact forms, lightbox, testimonials, timelines, google map, progress bars and more.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card p-3 pr-3">
-                            <div class="media">
-                                <div class="align-self-center card-img pb-3">
-                                    <span class="mbri-drag-n-drop2 mbr-iconfont"></span>
+                            @foreach (var item1 in Model)
+                            {
+                                <div class="card-box">
+                                    <p class="block-text mbr-fonts-style display-7">
+                                        <!-- Aservice field -->
+                                        @Html.DisplayFor(modelItem => item1.Aservice)
+                                    </p>
                                 </div>
-                                <div class="media-body">
-                                    <h4 class="card-title mbr-fonts-style display-7">
-                                        Easy and Simple to Use
-                                    </h4>
-                                </div>
-                            </div>
-                            <div class="card-box">
-                                <p class="block-text mbr-fonts-style display-7">
-                                    Cut down the development time with drag-and-drop website builder. Drop the blocks into the page, edit content inline and publish - no technical skills required.
-                                </p>
-                            </div>
+                            }
                         </div>
+                        <!-- End Data block  -->
                     </div>
                 </div>
+
+                <!-- End Data input / config -->
             </div>
         </div>
     </div>
 </section>
+<!-- Special section -->
 <section class="mbr-section article content11 cid-rm0lt4N8Ty" id="content11-10">
-
     <div class="container">
         <div class="media-container-row">
             <div class="mbr-text counter-container col-12 col-md-8 mbr-fonts-style display-7">
@@ -78,3 +77,4 @@
         </div>
     </div>
 </section>
+<!-- End special section -->

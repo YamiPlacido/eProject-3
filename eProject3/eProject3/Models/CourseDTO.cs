@@ -3,36 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eProject3.Models
 {
-    public class Course
+    public class CourseDTO
     {
         [Key]
         public int CourseID { get; set; }
 
-        [StringLength(50)] [Required]
+        [StringLength(50)]
+        [Required]
         public string CourseName { get; set; }
 
-        [StringLength(500)] [Required]
+        [StringLength(500)]
+        [Required]
         public string CourseDesctiption { get; set; }
 
-        [StringLength(50)] [Required]
+        [StringLength(50)]
+        [Required]
         public string CourseDuration { get; set; }
 
         [Required]
-        public DateTime CourseStartDate { get; set; }
+        public string CourseStartDate { get; set; }
 
         [Required]
-        public DateTime CourseEndDate { get; set; }
+        public string CourseEndDate { get; set; }
 
         [Required]
         public string CourseImage { get; set; }
-
-        [NotMapped]
-        public HttpPostedFileBase ImageFile { get; set; }
-
 
         public virtual ICollection<CourseStudent> CourseStudent { get; set; }
     }
