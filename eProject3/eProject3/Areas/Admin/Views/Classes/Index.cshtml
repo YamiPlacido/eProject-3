@@ -1,0 +1,246 @@
+﻿@model eProject3.Models.Class
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="Index.cshtml">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Class</li>
+</ol>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        Class
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <p>
+                    <a href="#" class="btn btn-info" onclick="AddNewClass(0)">Create New Class</a> <br /><br />
+                </p>
+                <thead>
+                    <tr>
+                        <th>Class Name</th>
+                        <th>Class Description</th>
+                        <th>TuitionFee</th>
+                        <th>Payment Deadline</th>
+                        <th>Estimated Duration</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Class Name</th>
+                        <th>Class Description</th>
+                        <th>TuitionFee</th>
+                        <th>Payment Deadline</th>
+                        <th>Estimated Duration</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                <tbody id="SetClassList">
+                    <tr id="LoadingStatus" style="color:red">
+                        <td class="row_1">aaaa</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>
+
+@* Create Class Modal *@
+
+<div id="MyModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" align="center">
+                <h4 class="col-sm-12 modal-title text-center" align="center">
+                    <h id="ModalTitle"></h>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal" id="form">
+                    <fieldset id="SubmitForm">
+                        @Html.HiddenFor(model => model.ClassID, new { @id = "ClassID" })
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Class Name:</b></label>
+                            @Html.EditorFor(model => model.ClassName, new { htmlAttributes = new { @id = "ClassName", @class = "form-control", @placeholder = "Class Name" } })
+                            @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Class Description:</b></label>
+                            @Html.EditorFor(model => model.ClassDescription, new { htmlAttributes = new { @id = "ClassDescription", @class = "form-control", @placeholder = "Class Description" } })
+                            @Html.ValidationMessageFor(model => model.ClassDescription, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Class Tuition Fee:</b></label>
+                            @Html.EditorFor(model => model.ClassTuitionFee, new { htmlAttributes = new { @id = "ClassTuitionFee", @class = "form-control", @placeholder = "Class Tuition Fee" } })
+                            @Html.ValidationMessageFor(model => model.ClassTuitionFee, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Class Payment Deadline:</b></label>
+                            @Html.EditorFor(model => model.ClassPaymentDeadline, new { htmlAttributes = new { @id = "ClassPaymentDeadline", @class = "form-control", @type = "text", @placeholder = "Payment Deadline", @onfocus = "(this.type='date')", @onblur = "(this.type='text')" } })
+                            @Html.ValidationMessageFor(model => model.ClassPaymentDeadline, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Class Estimated Duration:</b></label>
+                            @Html.EditorFor(model => model.ClassEstimatedDuration, new { htmlAttributes = new { @id = "ClassEstimatedDuration", @class = "form-control", @placeholder = "Estimated Duration*" } })
+                            @Html.ValidationMessageFor(model => model.ClassEstimatedDuration, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Class Start Date:</b></label>
+                            @Html.EditorFor(model => model.ClassStartDate, new { htmlAttributes = new { @id = "ClassStartDate", @class = "form-control", @type = "text", @placeholder = "Start Date*", @onfocus = "(this.type='date')", @onblur = "(this.type='text')" } })
+                            @Html.ValidationMessageFor(model => model.ClassStartDate, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Class End Date:</b></label>
+                            @Html.EditorFor(model => model.ClassEndDate, new { htmlAttributes = new { @id = "ClassEndDate", @class = "form-control", @type = "text", @placeholder = "End Date*", @onfocus = "(this.type='date')", @onblur = "(this.type='text')" } })
+                            @Html.ValidationMessageFor(model => model.ClassEndDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-block btn-danger" id="saveClassRecord">Submit</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Delete Confirmation Modal *@
+
+<div class="modal fade" id="deleteConfirm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4>Delete Class Record</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to delete this?</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary" data-dismiss="modal">Cancel</a>
+                <a href="#" class="btn btn-danger" onclick="ConfirmDelete()">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#LoadingStatus").html("Loading....");
+    $.get("/Admin/Classes/GetClassList", null, DataBind);
+    function DataBind(ClassList) {
+        //This Code For Receive All Data From Controller And Show It In Client Side
+        var SetData = $("#SetClassList");
+        for (var i = 0; i < ClassList.length; i++) {
+            var Data = "<tr class='row_" + ClassList[i].ClassID + "'>" +
+                "<td>" + ClassList[i].ClassName + "</td>" +
+                "<td>" + ClassList[i].ClassDescription + "</td>" +
+                "<td>" + ClassList[i].ClassTuitionFee + "</td>" +
+                "<td>" + ClassList[i].ClassPaymentDeadline + "</td>" +
+                "<td>" + ClassList[i].ClassEstimatedDuration + "</td>" +
+                "<td>" + ClassList[i].ClassStartDate + "</td>" +
+                "<td>" + ClassList[i].ClassEndDate + "</td>" +
+                "<td>" + "<a href='#' onclick='EditClassRecord(" + ClassList[i].ClassID + ")' >Update</a>" + "|" +
+                "<a href='#' onclick='DeleteClassRecord(" + ClassList[i].ClassID + ")'>Delete</a>" +
+                "</td>" +
+                "</tr>";
+            $("#LoadingStatus").remove();
+            SetData.append(Data);
+            $("#LoadingStatus").html(" ");
+        }
+    }
+
+    function AddNewClass(ClassID) {
+        $("#form")[0].reset();
+        $("#ClassID").val(0);
+        $("#ModalTitle").html("Add New Class");
+        $("#MyModal").modal();
+    }
+
+    function EditClassRecord(ClassID) {
+        var url = "/Admin/Classes/GetClassByID?ClassID=" + ClassID;
+        $("#ModalTitle").html("Update Class Detail");
+        $("#MyModal").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $("#ClassID").val(obj.ClassID);
+                $("#ClassName").val(obj.ClassName);
+                $("#ClassDescription").val(obj.ClassDescription);
+                $("#ClassTuitionFee").val(obj.ClassTuitionFee);
+                $("#ClassEstimatedDuration").val(obj.ClassEstimatedDuration);
+                $("#ClassPaymentDeadline").val(obj.ClassPaymentDeadline);
+                $("#ClassStartDate").val(obj.ClassStartDate);
+                $("#ClassEndDate").val(obj.ClassEndDate);
+            }
+        })
+    }
+
+    $("#saveClassRecord").click(function () {
+        var data = $("#SubmitForm").serialize();
+        $.ajax({
+            type: "Post",
+            url: "/Admin/Classes/SaveData",
+            data: data,
+            success: function (result) {
+                alert("Success!..");
+                window.location.href = "/Admin/Classes/Index";
+                $("#MyModal").modal("hide");
+            }
+        })
+    })
+
+    function DeleteClassRecord(ClassID) {
+        $("#ClassID").val(ClassID);
+        $("#deleteConfirm").modal("show");
+    }
+
+    function ConfirmDelete() {
+        var ClassID = $("#ClassID").val();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Classes/DeleteClass?ClassID=" + ClassID,
+            success: function (result) {
+                alert("Success!..");
+                window.location.href = "/Admin/Classes/Index";
+                $("#DeleteConfirm").modal("hide");
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        $("#dataTable").DataTable();
+        //$('.dataTables_length').addClass('bs-select');
+    });
+</script>

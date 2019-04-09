@@ -134,6 +134,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ClassesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EntranceExamResultsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EntranceExamsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\StudentsController.cs" />
     <Compile Include="Controllers\AboutUsController.cs" />
     <Compile Include="Controllers\ContactUsController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
@@ -141,6 +145,7 @@
     <Compile Include="Controllers\FAQsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -151,16 +156,20 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AboutUs.cs" />
     <Compile Include="Models\Class.cs" />
+    <Compile Include="Models\ClassDTO.cs" />
     <Compile Include="Models\ContactUs.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\CourseStudent.cs" />
     <Compile Include="Models\Credential.cs" />
+    <Compile Include="Models\EntranceExamResultDTO.cs" />
     <Compile Include="Models\EntranceExam.cs" />
+    <Compile Include="Models\EntranceExamDTO.cs" />
     <Compile Include="Models\EntranceExamResult.cs" />
     <Compile Include="Models\eProject3Context.cs" />
     <Compile Include="Models\FAQ.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\StudentDTO.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -183,6 +192,14 @@
     <Content Include="Areas\Admin\Views\Admins\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Admins\Login.cshtml" />
     <Content Include="Areas\Admin\Views\Admins\Register.cshtml" />
+    <Content Include="Areas\Admin\Views\Classes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\EntranceExams\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Students\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Students\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Students\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Students\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Students\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\EntranceExamResults\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -220,6 +237,11 @@
     <Content Include="Views\FAQs\Index.cshtml" />
     <Content Include="Views\ContactUs\Index.cshtml" />
     <Content Include="Views\AboutUs\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
