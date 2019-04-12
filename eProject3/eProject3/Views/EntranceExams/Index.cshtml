@@ -17,9 +17,6 @@
         <div class="row justify-content-md-center">
             <div class="mbr-white col-md-10">
                 <h1 class="mbr-section-title align-center mbr-bold pb-3 mbr-fonts-style display-1"><br>ENTRANCE EXAMS</h1>
-
-
-
             </div>
         </div>
     </div>
@@ -49,8 +46,6 @@
     </div>
 </section>
 <section class="mbr-section form3 cid-rm0hIYogHj" id="form3-r">
-
-
     <div class="container">
         <div class="row justify-content-center">
             <div class="title col-12 col-lg-8">
@@ -65,32 +60,30 @@
         <div class="row py-2 justify-content-center">
             <div class="col-12 col-lg-6  col-md-8 " data-form-type="formoid">
                 <!---Formbuilder Form--->
-                <form action="" method="POST" class="mbr-form form-with-styler" data-form-title="Mobirise Form">
-                    <input type="hidden" name="email" data-form-email="true" value="Ak582VsMwOnCXrjdDbWu8V57ORj+yhhlR+X4wDcLp9g2hLSCPsZy59eMc9B9OqdYT9NaqVv73y09/qXi3dJH5sSN3WidBYDzT0/RBE8bUMriUxNjdz687vD10Lpzb7GH">
-                    <div class="row">
-                        <div hidden="hidden" data-form-alert="" class="alert alert-success col-12">Thanks for filling out the form!</div>
-                        <div hidden="hidden" data-form-alert-danger="" class="alert alert-danger col-12">
-                        </div>
+                @*<form action="" class="mbr-form form-with-styler" data-form-title="Mobirise Form">*@
+                <input type="hidden" name="email" data-form-email="true" value="Ak582VsMwOnCXrjdDbWu8V57ORj+yhhlR+X4wDcLp9g2hLSCPsZy59eMc9B9OqdYT9NaqVv73y09/qXi3dJH5sSN3WidBYDzT0/RBE8bUMriUxNjdz687vD10Lpzb7GH">
+                <div class="row">
+                    <div hidden="hidden" data-form-alert="" class="alert alert-success col-12">Thanks for filling out the form!</div>
+                    <div hidden="hidden" data-form-alert-danger="" class="alert alert-danger col-12">
                     </div>
-                    <div class="dragArea row">
-                        <div class="form-group col" data-for="email">
-                            <input placeholder="Student Roll" required="required" class="form-control display-7" id="StudentRollSearch">
-                        </div>
-                        <div class="col-auto input-group-btn"><button type="submit" class="btn btn-primary display-4" onclick="ShowResultRecord(document.getElementById('StudentRollSearch').value)">SEARCH</button></div>
+                </div>
+                <div class="dragArea row">
+                    <div class="form-group col" data-for="email">
+                        <input placeholder="Student Roll" required="required" class="form-control display-7" id="SearchID">
                     </div>
-                </form><!---Formbuilder Form--->
+                    <div class="col-auto input-group-btn"><button class="btn btn-primary display-4" id="SearchResult" onclick="ShowResultRecord()">SEARCH</button></div>
+                </div>
+                @*</form>*@<!---Formbuilder Form--->
             </div>
         </div>
     </div>
 
-@* Search Result Modal *@
-
-    <div class="modal fade" id="ResultModal">
+    <div class="modal fade" id="searchModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="col-sm-12 modal-title text-center" align="center">
-                        Delete Result Record
+                        Student Result
                         <a href="#" class="close" data-dismiss="modal">&times;</a>
                     </h4>
                 </div>
@@ -106,9 +99,9 @@
                             </thead>
                             <tbody id="SetResultList2">
                                 <tr id="LoadingStatus2" style="color:red">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td id="StudentRoll"></td>
+                                    <td id="ExamID"></td>
+                                    <td id="Mark"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -116,11 +109,12 @@
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-primary" data-dismiss="modal">Cancel</a>
-                    <a href="#" class="btn btn-danger" onclick="ConfirmDelete()">Confirm</a>
+                    <a href="#" class="btn btn-success" data-dismiss="modal">OK</a>
                 </div>
             </div>
         </div>
     </div>
+
 </section>
 
 
@@ -155,25 +149,17 @@
     }
 
     function ShowResultRecord() {
-        //var StudentRoll = document.getElementById("StudentRollSearch").value;
-        var url = "/EntranceExamResults/GetResultListByID?StudentRoll=" + StudentRoll;
-        $("#LoadingStatus2").html("Loading....");
-        $("#ResultModal").modal();
+        var StudentRoll = $("#SearchID").val();
+        $("#searchModal").modal();
         $.ajax({
             type: "GET",
-            url: url,
+            url: "/EntranceExamResults/GetResultByID?StudentRoll=" + StudentRoll,
             success: function (data) {
+                alert("Result found!..");
                 var obj = JSON.parse(data);
-                var SetData = $("#SetResultList2");
-                var Data = "<tr class='row_" + obj.StudentRoll + "'>" +
-                    "<td>" + obj.StudentRoll + "</td>" +
-                    "<td>" + obj.EntranceExamID + "</td>" +
-                    "<td>" + obj.Mark + "</td>" +
-                    "</td>" +
-                    "</tr>";
-                $("#LoadingStatus2").remove();
-                SetData.append(Data);
-                $("#LoadingStatus2").html(" ");
+                $("#StudentRoll").text(obj.StudentRoll);
+                $("#ExamID").text(obj.EntranceExamID);
+                $("#Mark").text(obj.Mark);
             }
         })
     }

@@ -1,0 +1,93 @@
+﻿@model eProject3.Models.User
+
+@* Register User Modal *@
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<div id="MyModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" align="center">
+                <h4 class="col-sm-12 modal-title text-center" align="center">
+                    <h id="ModalTitle">Sign Up</h>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal" id="form">
+                    <fieldset id="SubmitForm">
+                        @Html.HiddenFor(model => model.UserID, new { @id = "UserID" })
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>User Name:</b></label>
+                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @id = "UName", @class = "form-control", @placeholder = "User Name" } })
+                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>User Password:</b></label>
+                            @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @id = "UserPassword", @class = "form-control", @type = "password" } })
+                            @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>User First Name:</b></label>
+                            @Html.EditorFor(model => model.UserFirstName, new { htmlAttributes = new { @id = "UserFirstName", @class = "form-control", @placeholder = "User First Name" } })
+                            @Html.ValidationMessageFor(model => model.UserFirstName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>User Last Name:</b></label>
+                            @Html.EditorFor(model => model.UserLastName, new { htmlAttributes = new { @id = "UserLastName", @class = "form-control", @placeholder = "User Last Name" } })
+                            @Html.ValidationMessageFor(model => model.UserLastName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>User Address:</b></label>
+                            @Html.EditorFor(model => model.UserAddress, new { htmlAttributes = new { @id = "UserAddress", @class = "form-control", @placeholder = "User Address" } })
+                            @Html.ValidationMessageFor(model => model.UserAddress, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>User Date of Birth:</b></label>
+                            @Html.EditorFor(model => model.UserDOB, new { htmlAttributes = new { @id = "UserDOB", @class = "form-control", @placeholder = "User Date of Birth", @type = "text", @onfocus = "(this.type='date')", @onblur = "(this.type='text')" } })
+                            @Html.ValidationMessageFor(model => model.UserDOB, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>User Email:</b></label>
+                            @Html.EditorFor(model => model.UserEmail, new { htmlAttributes = new { @id = "UserEmail", @class = "form-control", @placeholder = "User Email", @type = "email" } })
+                            @Html.ValidationMessageFor(model => model.UserEmail, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary col-sm-11" id="saveUserRecord">Submit</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function CreateUser(UserID) {
+        $("#form")[0].reset();
+        $("#UserID").val(0);
+        $("#MyModal").modal();
+    }
+
+    $("#saveUserRecord").click(function () {
+        var data = $("#SubmitForm").serialize();
+        $.ajax({
+            type: "Post",
+            url: "/Users/SaveData",
+            data: data,
+            success: function (result) {
+                alert("Success!..");
+                window.location.href = "/Home/Index";
+                $("#MyModal").modal("hide");
+            }
+        })
+    })
+</script>

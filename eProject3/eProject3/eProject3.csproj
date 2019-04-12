@@ -138,14 +138,20 @@
     <Compile Include="Areas\Admin\Controllers\EntranceExamResultsController.cs" />
     <Compile Include="Areas\Admin\Controllers\EntranceExamsController.cs" />
     <Compile Include="Areas\Admin\Controllers\StudentsController.cs" />
+    <Compile Include="Common\CommonConstants.cs" />
+    <Compile Include="Common\UserLogin.cs" />
     <Compile Include="Controllers\AboutUsController.cs" />
     <Compile Include="Controllers\ContactUsController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
+    <Compile Include="Controllers\EntranceExamResultsController.cs" />
     <Compile Include="Controllers\EntranceExamsController.cs" />
     <Compile Include="Controllers\FAQsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LayoutController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Functions\UserFunctions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -167,6 +173,7 @@
     <Compile Include="Models\EntranceExamResult.cs" />
     <Compile Include="Models\eProject3Context.cs" />
     <Compile Include="Models\FAQ.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentDTO.cs" />
@@ -242,6 +249,9 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Shared\_Register.cshtml" />
+    <Content Include="Views\Shared\_Login.cshtml" />
+    <Content Include="Views\Shared\_Logout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -249,6 +259,9 @@
     <Folder Include="Assets\admin\" />
     <Folder Include="Assets\client\" />
     <Folder Include="Images\CourseImage\" />
+    <Folder Include="Views\EntranceExamResults\" />
+    <Folder Include="Views\Layout\" />
+    <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
