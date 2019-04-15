@@ -1,0 +1,162 @@
+﻿@model eProject3.Models.FAQ
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="Index.cshtml">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">FAQ</li>
+</ol>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        FAQ
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+                <p>
+                    <a href="#" class="btn btn-info" onclick="AddNewFaq(0)">Create New FAQ</a> <br /><br />
+                </p>
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Answer</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+    </div>
+</div>
+@*Create A Popup Modal With Registration Form For Add Or Edit Student Record*@
+<div class="modal fade" id="MyModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="ModalTitle"></h4>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("SaveData", "FAQs", FormMethod.Post, new { @class = "form-horizontal", @id = "form" }))
+                {
+                    <fieldset id="SubmitForm">
+                        @*@Html.EditorFor(model => model.ClassPaymentDeadline, new { htmlAttributes = new { @id = "ClassPaymentDeadline", @class = "form-control", @type = "text", @placeholder = "Payment Deadline", @onfocus = "(this.type='date')", @onblur = "(this.type='text')" } })*@
+                        @Html.HiddenFor(m => m.Fid, new { @id = "Fid" })
+                        <div class="form-group">
+                            @Html.EditorFor(m => m.Fquestion, new { htmlAttributes = new { @id = "Fquestion", @class = "form-control", @placeholder = "Name*" } })
+                            @Html.ValidationMessageFor(m => m.Fquestion, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.EditorFor(m => m.Fanswer, new { htmlAttributes = new { @id = "Fanswer", @class = "form-control", @placeholder = "Des*" } })
+                            @Html.ValidationMessageFor(m => m.Fanswer, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-block btn-danger">Save</button>
+                        </div>
+                    </fieldset>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@*Create A PopUp Modal For DeleteConfirmation*@
+<div class="modal fade" id="DeleteConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Delete FAQ Record</h4>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                <h4>Are You Sure? You Want To Delete This Record.</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary" data-dismiss="modal" id="r">Cancle</a>
+                <a href="#" class="btn btn-danger" onclick="ConfirmDelete()">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(document).ready(function () {
+        $("#dataTable").DataTable({
+            "ajax": {
+                "url": "/Admin/FAQs/GetFaqList",
+                "type": "GET",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "Fquestion" },
+                { "data": "Fanswer" },
+                {
+                    "data": "Fid", "render": function (data) {
+                        return "<a href='#' class='btn btn-warning' onclick='EditFaqRecord(" + data + ")' >Update</a>" + " " +
+                            "<a href='#' class='btn btn-danger' onclick='DeleteFaqRecord(" + data + ")'>Delete</a>"
+                    }
+                }
+            ],
+            "language": {
+                "emptyTable": "No data found, please add new"
+            }
+        });
+    });
+
+    //Show The Popup Modal For Add New Student
+
+    function AddNewFaq(Fid) {
+        $("#form")[0].reset();
+        $("#Fid").val(0);
+        $("#ModalTitle").html("Add New FAQ");
+        $("#MyModal").modal();
+    }
+
+    //Show The Popup Modal For Edit Student Record
+
+    function EditFaqRecord(Fid) {
+        var url = "/Admin/FAQs/GetFaqById?Fid=" + Fid;
+        $("#ModalTitle").html("FAQ Record");
+        $("#MyModal").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $("#Fid").val(obj.Fid);
+                $("#Fquestion").val(obj.Fquestion);
+                $("#Fanswer").val(obj.Fanswer);
+            }
+        })
+    }
+
+    //Show The Popup Modal For DeleteComfirmation
+    var DeleteFaqRecord = function (Fid) {
+        $("#Fid").val(Fid);
+        $("#DeleteConfirmation").modal("show");
+    }
+    var ConfirmDelete = function () {
+        var Fid = $("#Fid").val();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/FAQs/DeleteFaqRecord?Fid=" + Fid,
+            success: function (result) {
+                alert("Success!..");
+                window.location.href = "/Admin/FAQs/Index";
+                $("#DeleteConfirmation").modal("hide");
+            }
+        })
+    }
+
+
+</script>

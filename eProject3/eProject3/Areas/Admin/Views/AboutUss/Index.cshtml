@@ -1,0 +1,178 @@
+﻿@model eProject3.Models.AboutUs
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="Index.cshtml">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">About Us</li>
+</ol>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        About Us
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+                <p>
+                    <a href="#" class="btn btn-info" onclick="AddNewAboutUs(0)">Create New About</a> <br /><br />
+                </p>
+                <thead>
+                    <tr>
+                        <th>Introduction</th>
+                        <th>Service</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+    </div>
+</div>
+@*Create A Popup Modal With Registration Form For Add Or Edit Student Record*@
+<div class="modal fade" id="MyModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="ModalTitle"></h4>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("SaveData", "AboutUss", FormMethod.Post, new { @class = "form-horizontal", @id = "form" }))
+                {
+                    <fieldset id="SubmitForm">
+                        @*@Html.EditorFor(model => model.ClassPaymentDeadline, new { htmlAttributes = new { @id = "ClassPaymentDeadline", @class = "form-control", @type = "text", @placeholder = "Payment Deadline", @onfocus = "(this.type='date')", @onblur = "(this.type='text')" } })*@
+                        @Html.HiddenFor(m => m.Aid, new { @id = "Aid" })
+                        <div class="form-group">
+                            @Html.EditorFor(m => m.Aintroduction, new { htmlAttributes = new { @id = "Aintroduction", @class = "form-control", @placeholder = "Introduction" } })
+                            @Html.ValidationMessageFor(m => m.Aintroduction, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.EditorFor(m => m.Aservice, new { htmlAttributes = new { @id = "Aservice", @class = "form-control", @placeholder = "Service" } })
+                            @Html.ValidationMessageFor(m => m.Aservice, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-block btn-danger">Save</button>
+                        </div>
+                    </fieldset>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@*Create A PopUp Modal For DeleteConfirmation*@
+<div class="modal fade" id="DeleteConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Delete About Us Record</h4>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                <h4>Are You Sure? You Want To Delete This Record.</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary" data-dismiss="modal" id="r">Cancle</a>
+                <a href="#" class="btn btn-danger" onclick="ConfirmDelete()">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(document).ready(function () {
+        $("#dataTable").DataTable({
+            "ajax": {
+                "url": "/Admin/AboutUss/GetAboutUsList",
+                "type": "GET",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "Aintroduction" },
+                { "data": "Aservice" },
+                {
+                    "data": "Aid", "render": function (data) {
+                        return "<a href='#' class='btn btn-warning' onclick='EditAboutUsRecord(" + data + ")' >Update</a>" + " " +
+                            "<a href='#' class='btn btn-danger' onclick='DeleteAboutUsRecord(" + data + ")'>Delete</a>"
+                    }
+                }
+            ],
+            "language": {
+                "emptyTable": "No data found, please add new"
+            }
+        });
+    });
+
+    //Show The Popup Modal For Add New Student
+
+    function AddNewAboutUs(Aid) {
+        $("#form")[0].reset();
+        $("#Aid").val(0);
+        $("#ModalTitle").html("Add New About");
+        $("#MyModal").modal();
+    }
+
+    //Show The Popup Modal For Edit Student Record
+
+    function EditAboutUsRecord(Aid) {
+        var url = "/Admin/AboutUss/GetAboutUsById?Aid=" + Aid;
+        $("#ModalTitle").html("About Us Record");
+        $("#MyModal").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $("#Aid").val(obj.Aid);
+                $("#Aintroduction").val(obj.Aintroduction);
+                $("#Aservice").val(obj.Aservice);
+            }
+        })
+    }
+
+    //function AjaxPost(formData) {
+    //    var ajaxConfig = {
+    //        type: "POST",
+    //        url: "/Admin/AboutUss/SaveData",
+    //        data: new FormData(formData),
+    //        success: function (result) {
+    //            alert(result);
+    //            window.location.href = "/Admin/AboutUss/Index";
+    //        }
+    //    }
+    //    if ($(formData).attr('enctype') == "multipart/form-data") {
+    //        ajaxConfig["contentType"] = false;
+    //        ajaxConfig["processData"] = false;
+    //    }
+    //    $.ajax(ajaxConfig);
+    //    return false;
+    //}
+
+    //Show The Popup Modal For DeleteComfirmation
+    var DeleteAboutUsRecord = function (Aid) {
+        $("#Aid").val(Aid);
+        $("#DeleteConfirmation").modal("show");
+    }
+    var ConfirmDelete = function () {
+        var Aid = $("#Aid").val();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/AboutUss/DeleteAboutUsRecord?Aid=" + Aid,
+            success: function (result) {
+                alert(result);
+                window.location.href = "/Admin/AboutUss/Index";
+                $("#DeleteConfirmation").modal("hide");
+            }
+        })
+    }
+</script>

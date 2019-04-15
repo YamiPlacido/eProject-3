@@ -133,13 +133,19 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AboutUssController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ClassesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ContactUssController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CoursesController.cs" />
     <Compile Include="Areas\Admin\Controllers\EntranceExamResultsController.cs" />
     <Compile Include="Areas\Admin\Controllers\EntranceExamsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FAQsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LayoutController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\StudentsController.cs" />
     <Compile Include="Common\CommonConstants.cs" />
-    <Compile Include="Common\Encryptor.cs" />
+    <Compile Include="Common\Encryptor.cs" />   
     <Compile Include="Common\UserLogin.cs" />
     <Compile Include="Controllers\AboutUsController.cs" />
     <Compile Include="Controllers\ContactUsController.cs" />
@@ -156,9 +162,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903270723248_initials.cs" />
-    <Compile Include="Migrations\201903270723248_initials.Designer.cs">
-      <DependentUpon>201903270723248_initials.cs</DependentUpon>
+    <Compile Include="Migrations\201904141708393_initial.cs" />
+    <Compile Include="Migrations\201904141708393_initial.Designer.cs">
+      <DependentUpon>201904141708393_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AboutUs.cs" />
@@ -196,7 +202,7 @@
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\View.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Error.cshtml" />
     <Content Include="Areas\Admin\Views\Admins\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Admins\Login.cshtml" />
     <Content Include="Areas\Admin\Views\Admins\Register.cshtml" />
@@ -208,6 +214,12 @@
     <Content Include="Areas\Admin\Views\Students\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Students\Index.cshtml" />
     <Content Include="Areas\Admin\Views\EntranceExamResults\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Courses\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\FAQs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactUss\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AboutUss\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Login.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Logout.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -257,6 +269,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Layout\" />
+    <Folder Include="Areas\Admin\Views\Login\" />
     <Folder Include="Assets\admin\" />
     <Folder Include="Assets\client\" />
     <Folder Include="Images\CourseImage\" />
@@ -278,8 +292,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903270723248_initials.resx">
-      <DependentUpon>201903270723248_initials.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904141708393_initial.resx">
+      <DependentUpon>201904141708393_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

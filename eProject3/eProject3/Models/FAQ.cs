@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -10,11 +11,15 @@ namespace eProject3.Models
     {
         [Key]
         public int Fid { get; set; }
-        
-        [StringLength(500)] [Required]
+
+        [Required(ErrorMessage = "This field is required")]
+        [StringLength(500)]
+        [Column(TypeName = "VARCHAR")]
         public string Fquestion { get; set; }
 
-        [StringLength(500)] [Required]
+        [Required(ErrorMessage = "This field is required")]
+        [StringLength(500)]
+        [Column(TypeName = "VARCHAR")]
         public string Fanswer { get; set; }
     }
 }
