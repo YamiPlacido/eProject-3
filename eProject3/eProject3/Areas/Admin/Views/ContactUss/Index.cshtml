@@ -1,0 +1,171 @@
+﻿@model eProject3.Models.ContactUs
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="Index.cshtml">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Contact Us</li>
+</ol>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        Contact Us
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+                <p>
+                    <a href="#" class="btn btn-info" onclick="AddNewContactUs(0)">Create New Contact</a> <br /><br />
+                </p>
+                <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th>Address</th>
+                        <th>Email</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+    </div>
+</div>
+@*Create A Popup Modal With Registration Form For Add Or Edit Student Record*@
+<div class="modal fade" id="MyModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="ModalTitle"></h4>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                @*<form id="form" enctype="multipart/form-data" onsubmit="return AjaxPost(this)">*@
+                @using (Html.BeginForm("SaveData", "ContactUss", FormMethod.Post, new { @class = "form-horizontal", @id = "form" }))
+                {
+                    <fieldset id="SubmitForm">
+                        @*@Html.EditorFor(model => model.ClassPaymentDeadline, new { htmlAttributes = new { @id = "ClassPaymentDeadline", @class = "form-control", @type = "text", @placeholder = "Payment Deadline", @onfocus = "(this.type='date')", @onblur = "(this.type='text')" } })*@
+                        @Html.HiddenFor(m => m.Cid, new { @id = "Cid" })
+                        <div class="form-group">
+                            <label class="col-sm-10" for=""><b>Location</b></label>
+                            @Html.EditorFor(m => m.Clocation, new { htmlAttributes = new { @id = "Clocation", @class = "form-control", @placeholder = "Location" } })
+                            @Html.ValidationMessageFor(m => m.Clocation, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-10" for=""><b>Address</b></label>
+                            @Html.EditorFor(m => m.Caddress, new { htmlAttributes = new { @id = "Caddress", @class = "form-control", @placeholder = "Address" } })
+                            @Html.ValidationMessageFor(m => m.Caddress, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-10" for=""><b>Email</b></label>
+                            @Html.EditorFor(m => m.Cemail, new { htmlAttributes = new { @id = "Cemail", @class = "form-control", @placeholder = "Email" } })
+                            @Html.ValidationMessageFor(m => m.Cemail, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-block btn-danger">Save</button>
+                        </div>
+                    </fieldset>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@*Create A PopUp Modal For DeleteConfirmation*@
+<div class="modal fade" id="DeleteConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Delete Contact Us Record</h4>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                <h4>Are You Sure? You Want To Delete This Record.</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary" data-dismiss="modal" id="r">Cancle</a>
+                <a href="#" class="btn btn-danger" onclick="ConfirmDelete()">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(document).ready(function () {
+        $("#dataTable").DataTable({
+            "ajax": {
+                "url": "/Admin/ContactUss/GetContactUsList",
+                "type": "GET",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "Clocation" },
+                { "data": "Caddress" },
+                { "data": "Cemail" },
+                {
+                    "data": "Cid", "render": function (data) {
+                        return "<a href='#' class='btn btn-warning' onclick='EditContactUsRecord(" + data + ")' >Update</a>" + " " +
+                            "<a href='#' class='btn btn-danger' onclick='DeleteContactUsRecord(" + data + ")'>Delete</a>"
+                    }
+                }
+            ],
+            "language": {
+                "emptyTable": "No data found, please add new"
+            }
+        });
+    });
+
+    //Show The Popup Modal For Add New Student
+
+    function AddNewContactUs(Cid) {
+        $("#form")[0].reset();
+        $("#Cid").val(0);
+        $("#ModalTitle").html("Add New Contact");
+        $("#MyModal").modal();
+    }
+
+    //Show The Popup Modal For Edit Student Record
+
+    function EditContactUsRecord(Cid) {
+        var url = "/Admin/ContactUss/GetContactUsById?Cid=" + Cid;
+        $("#ModalTitle").html("Contact Us Record");
+        $("#MyModal").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $("#Cid").val(obj.Cid);
+                $("#Clocation").val(obj.Clocation);
+                $("#Caddress").val(obj.Caddress);
+                $("#Cemail").val(obj.Cemail);
+            }
+        })
+    }
+
+    //Show The Popup Modal For DeleteComfirmation
+    var DeleteContactUsRecord = function (Cid) {
+        $("#Cid").val(Cid);
+        $("#DeleteConfirmation").modal("show");
+    }
+    var ConfirmDelete = function () {
+        var Cid = $("#Cid").val();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/ContactUss/DeleteContactUsRecord?Cid=" + Cid,
+            success: function (result) {
+                alert(result);
+                window.location.href = "/Admin/ContactUss/Index";
+                $("#DeleteConfirmation").modal("hide");
+            }
+        })
+    }
+
+
+</script>

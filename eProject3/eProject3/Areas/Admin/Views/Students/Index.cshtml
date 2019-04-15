@@ -1,0 +1,249 @@
+﻿@model eProject3.Models.Student
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="Index.cshtml">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Student</li>
+</ol>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        Student
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <p>
+                    <a href="#" class="btn btn-info" onclick="AddNewStudent(0)">Create New Student</a> <br /><br />
+                </p>
+                <thead>
+                    <tr>
+                        <th>Student First Name</th>
+                        <th>Student Last Name</th>
+                        <th>Class ID</th>
+                        <th>Student Address</th>
+                        <th>Student DOB</th>
+                        <th>Student Email</th>
+                        <th>Student Result</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Student First Name</th>
+                        <th>Student Last Name</th>
+                        <th>Class ID</th>
+                        <th>Student Address</th>
+                        <th>Student DOB</th>
+                        <th>Student Email</th>
+                        <th>Student Result</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                <tbody id="SetStudentList">
+                    <tr id="LoadingStatus" style="color:red">
+                        <td class="row_1">aaaa</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>
+
+@* Create Student Modal *@
+
+<div id="MyModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" align="center">
+                <h4 class="col-sm-12 modal-title text-center" align="center">
+                    <h id="ModalTitle"></h>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal" id="form">
+                    <fieldset id="SubmitForm">
+                        @Html.HiddenFor(model => model.StudentRoll, new { @id = "StudentRoll" })
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Student First Name:</b></label>
+                            @Html.EditorFor(model => model.StudentFirstName, new { htmlAttributes = new { @id = "SFirstName", @class = "form-control", @placeholder = "First Name" } })
+                            @Html.ValidationMessageFor(model => model.StudentFirstName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Student Last Name:</b></label>
+                            @Html.EditorFor(model => model.StudentLastName, new { htmlAttributes = new { @id = "SLastName", @class = "form-control", @placeholder = "Last Name" } })
+                            @Html.ValidationMessageFor(model => model.StudentLastName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Class:</b></label>
+                            @Html.DropDownListFor(model => model.ClassID, ViewBag.ListOfClass as SelectList, "--Select Class--", new { @id = "DropDwn", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ClassID, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Student Address:</b></label>
+                            @Html.EditorFor(model => model.StudentAddress, new { htmlAttributes = new { @id = "SAddress", @class = "form-control", @placeholder = "Address" } })
+                            @Html.ValidationMessageFor(model => model.StudentAddress, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Student Date of Birth:</b></label>
+                            @Html.EditorFor(model => model.StudentDOB, new { htmlAttributes = new { @id = "SDOB", @class = "form-control", @placeholder = "Date of Birth", @type = "text", @onfocus = "(this.type='date')", @onblur = "(this.type='text')" } })
+                            @Html.ValidationMessageFor(model => model.StudentDOB, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Student Email:</b></label>
+                            @Html.EditorFor(model => model.StudentEmail, new { htmlAttributes = new { @id = "SEmail", @class = "form-control", @placeholder = "Email" } })
+                            @Html.ValidationMessageFor(model => model.StudentEmail, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Exam Result:</b></label>
+                            @Html.EditorFor(model => model.StudentResult, new { htmlAttributes = new { @id = "SResult", @class = "form-control", @placeholder = "Student Result" } })
+                            @Html.ValidationMessageFor(model => model.StudentResult, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-block btn-danger" id="saveStudentRecord">Submit</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Delete Confirmation Modal *@
+
+<div class="modal fade" id="deleteConfirm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">             
+                <h4 class="col-sm-12 modal-title text-center" align="center">
+                    Delete Student Record
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to delete this?</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary" data-dismiss="modal">Cancel</a>
+                <a href="#" class="btn btn-danger" onclick="ConfirmDelete()">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#LoadingStatus").html("Loading....");
+    $.get("/Admin/Students/GetStudentList", null, DataBind);
+    function DataBind(StudentList) {
+        //This Code For Receive All Data From Controller And Show It In Client Side
+        var SetData = $("#SetStudentList");
+        for (var i = 0; i < StudentList.length; i++) {
+            var Data = "<tr class='row_" + StudentList[i].StudentRoll + "'>" +
+                "<td>" + StudentList[i].StudentFirstName + "</td>" +
+                "<td>" + StudentList[i].StudentLastName + "</td>" +
+                "<td>" + StudentList[i].ClassID + "</td>" +
+                "<td>" + StudentList[i].StudentAddress + "</td>" +
+                "<td>" + StudentList[i].StudentDOB + "</td>" +
+                "<td>" + StudentList[i].StudentEmail + "</td>" +
+                "<td>" + StudentList[i].StudentResult + "</td>" +
+                "<td>" + "<a href='#' onclick='EditStudentRecord(" + StudentList[i].StudentRoll + ")' >Update</a>" + " | " +
+                "<a href='#' onclick='DeleteStudentRecord(" + StudentList[i].StudentRoll + ")'>Delete</a>" +
+                "</td>" +
+                "</tr>";
+            $("#LoadingStatus").remove();
+            SetData.append(Data);
+            $("#LoadingStatus").html(" ");
+        }
+    }
+
+    function AddNewStudent(StudentRoll) {
+        $("#form")[0].reset();
+        $("#StudentRoll").val(0);
+        $("#ModalTitle").html("Add New Student");
+        $("#MyModal").modal();
+    }
+
+    function EditStudentRecord(StudentRoll) {
+        var url = "/Admin/Students/GetStudentByID?StudentRoll=" + StudentRoll;
+        $("#ModalTitle").html("Update Student Detail");
+        $("#MyModal").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $("#StudentRoll").val(obj.StudentRoll);
+                $("#SFirstName").val(obj.StudentFirstName);
+                $("#SLastName").val(obj.StudentLastName);
+                $("#DropDwn").val(obj.ClassID);
+                $("#SAddress").val(obj.StudentAddress);
+                $("#SDOB").val(obj.StudentDOB);
+                $("#SEmail").val(obj.StudentEmail);
+                $("#SResult").val(obj.StudentResult);
+            }
+        })
+    }
+
+    $("#saveStudentRecord").click(function () {
+        var data = $("#SubmitForm").serialize();
+        $.ajax({
+            type: "Post",
+            url: "/Admin/Students/SaveData",
+            data: data,
+            success: function (result) {
+                alert("Success!..");
+                window.location.href = "/Admin/Students/Index";
+                $("#MyModal").modal("hide");
+            }
+        })
+    })
+
+    function DeleteStudentRecord(StudentRoll) {
+        $("#StudentRoll").val(StudentRoll);
+        $("#deleteConfirm").modal("show");
+    }
+
+    function ConfirmDelete() {
+        var StudentRoll = $("#StudentRoll").val();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Students/DeleteStudent?StudentRoll=" + StudentRoll,
+            success: function (result) {
+                alert("Success!..");
+                window.location.href = "/Admin/Students/Index";
+                $("#DeleteConfirm").modal("hide");
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        $("#dataTable").DataTable();
+        //$('.dataTables_length').addClass('bs-select');
+    });
+</script>

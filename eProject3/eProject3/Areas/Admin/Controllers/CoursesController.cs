@@ -2,78 +2,70 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using eProject3.Models;
 using Newtonsoft.Json;
-using System.IO;
 
 namespace eProject3.Areas.Admin.Controllers
 {
     public class CoursesController : Controller
     {
         private eProject3Context db = new eProject3Context();
-
-        // GET: Admin/Courses
         public ActionResult Index()
         {
-            return View();
-        }
-
-        // Get Course List
-        public JsonResult GetCourseList()
-        {
-            //Pass The All Student Record From Controller To View For Show The All Data For User
-            List<CourseDTO> CouList = db.Courses.Select(x => new CourseDTO
+            if (Session["USER_SESSION"] == null)
             {
-                CourseID = x.CourseID,
-                CourseName = x.CourseName,
-                CourseDesctiption = x.CourseDesctiption,
-                CourseDuration = x.CourseDuration,
-                CourseStartDate = x.CourseStartDate.ToString(),
-                CourseEndDate = x.CourseEndDate.ToString(),
-                CourseImage = x.CourseImage
-            }).ToList();
-
-            return Json(CouList, JsonRequestBehavior.AllowGet);
+                return RedirectToAction("Login", "Admins");
+            }
+            else
+                return View();
         }
 
-        public JsonResult GetCourseById(int CourseId)
+        //Get List Of Course
+        public async Task<ActionResult> GetCourseList()
         {
-            Course model = db.Courses.Where(x => x.CourseID == CourseId).SingleOrDefault();
+            db.Configuration.LazyLoadingEnabled = false;
+            List<Course> couList = await db.Courses.ToListAsync<Course>();
+            return Json(new { data = couList }, JsonRequestBehavior.AllowGet);
+        }
+
+        //Get Course ID
+        public async Task<JsonResult> GetCourseById(int CourseID)
+        {
+            Course co = await db.Courses.Where(x => x.CourseID == CourseID).SingleOrDefaultAsync();
             string value = string.Empty;
-            value = JsonConvert.SerializeObject(model, Formatting.Indented, new JsonSerializerSettings
+            value = JsonConvert.SerializeObject(co, Formatting.Indented, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
             return Json(value, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<JsonResult> SaveData([Bind(Include = "CourseID,CourseName,CourseDesctiption,CourseDuration,CourseStartDate,CourseEndDate,CourseImage,ImageFile")] Course course)
+        //Add and Save data to database
+        public async Task<JsonResult> SaveData(Course course)
         {
             var result = false;
             try
             {
-                //string fileName = Path.GetFileNameWithoutExtension(course.ImageFile.FileName);
-                //string extension = Path.GetExtension(course.ImageFile.FileName);
-                //fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                //course.CourseImage = "~/Images/CourseImage/" + fileName;
-                //fileName = Path.Combine(Server.MapPath("~/Images/CourseImage/"), fileName);
-                //course.ImageFile.SaveAs(fileName);
+                string fileName = Path.GetFileNameWithoutExtension(course.ImageFile.FileName);
+                string extension = Path.GetExtension(course.ImageFile.FileName);
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                course.CourseImage = "/Images/CourseImage/" + fileName;
+                fileName = Path.Combine(Server.MapPath("~/Images/CourseImage/"), fileName);
+                course.ImageFile.SaveAs(fileName);
                 if (course.CourseID > 0)
                 {
-                        string fileName = Path.GetFileNameWithoutExtension(course.ImageFile.FileName);
-                        string extension = Path.GetExtension(course.ImageFile.FileName);
-                        fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                        course.CourseImage = "~/Images/CourseImage/" + fileName;
-                        fileName = Path.Combine(Server.MapPath("~/Images/CourseImage/"), fileName);
-                        course.ImageFile.SaveAs(fileName);
+                    if (ModelState.IsValid)
+                    {
                         db.Entry(course).State = EntityState.Modified;
                         await db.SaveChangesAsync();
                         result = true;
+                    }
                 }
                 else
                 {
@@ -93,15 +85,15 @@ namespace eProject3.Areas.Admin.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        // Delete
-        public async Task<JsonResult> DeleteStudentRecord(int CourseId)
+        //Delete
+        public async Task<JsonResult> DeleteCourseRecord(int CourseID)
         {
             bool result = false;
-            Course cou = await db.Courses.FindAsync(CourseId);
-            if (cou != null)
+            Course courses = await db.Courses.FindAsync(CourseID);
+            if (courses != null)
             {
-                db.Courses.Remove(cou);
-                db.SaveChanges();
+                db.Courses.Remove(courses);
+                await db.SaveChangesAsync();
                 result = true;
             }
 
@@ -110,7 +102,7 @@ namespace eProject3.Areas.Admin.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing)
+            if (disposing)
             {
                 db.Dispose();
             }

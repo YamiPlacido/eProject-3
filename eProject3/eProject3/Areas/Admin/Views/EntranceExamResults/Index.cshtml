@@ -1,0 +1,265 @@
+﻿@model eProject3.Models.EntranceExamResult
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="Index.cshtml">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Entrance Exam Result</li>
+</ol>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        Entrance Exam Result
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <p>
+                    <a href="#" class="btn btn-info" onclick="AddNewResult(0)">Create New Result</a> <br /><br />
+                </p>
+                <thead>
+                    <tr>
+                        <th>Student Roll</th>
+                        <th>Entrance Exam ID</th>
+                        <th>Result</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Student Roll</th>
+                        <th>Entrance Exam ID</th>
+                        <th>Result</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                <tbody id="SetResultList">
+                    <tr id="LoadingStatus" style="color:red">
+                        <td class="row_1">aaaa</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>
+
+@* Create Result Modal *@
+
+<div id="CreateModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" align="center">
+                <h4 class="col-sm-12 modal-title text-center" align="center">
+                    <h id="ModalTitle"></h>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal" id="form">
+                    <fieldset id="SubmitForm">
+                        <div class="form-group">
+                            <label class="col-sm-10"><b>Student Roll:</b></label>
+                            @Html.DropDownListFor(model => model.StudentRoll, ViewBag.ListOfStudent as SelectList, "--Select Student--", new { @id = "StudentRoll", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.StudentRoll, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Entrance Exam ID:</b></label>
+                            @Html.DropDownListFor(model => model.EntranceExamID, ViewBag.ListOfEntranceExam as SelectList, "--Select Entrance Exam--", new { @id = "ExamID", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.EntranceExamID, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Mark:</b></label>
+                            @Html.EditorFor(model => model.Mark, new { htmlAttributes = new { @id = "Mark", @class = "form-control", @placeholder = "Mark" } })
+                            @Html.ValidationMessageFor(model => model.Mark, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-block btn-danger" id="saveCreateRecord">Submit</button>
+                        </div>
+                    </fieldset>
+                    <span hidden id="action" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Update Result Modal *@
+
+<div id="UpdateModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" align="center">
+                    <h4 class="col-sm-12 modal-title text-center" align="center">
+                        <h id="ModalTitle2"></h>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </h4>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-horizontal" id="form2">
+                        <fieldset id="SubmitForm2">
+                            <div class="form-group">
+                                <label class="col-sm-10"><b>Student Roll:</b></label>
+                                @Html.DropDownListFor(model => model.StudentRoll, ViewBag.ListOfStudent as SelectList, "--Select Student--", new { @id = "StudentRoll2", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.StudentRoll, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-10" for="email"><b>Entrance Exam ID:</b></label>
+                                @Html.DropDownListFor(model => model.EntranceExamID, ViewBag.ListOfEntranceExam as SelectList, "--Select Entrance Exam--", new { @id = "ExamID2", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.EntranceExamID, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-10" for="email"><b>Mark:</b></label>
+                                @Html.EditorFor(model => model.Mark, new { htmlAttributes = new { @id = "Mark2", @class = "form-control", @placeholder = "Mark" } })
+                                @Html.ValidationMessageFor(model => model.Mark, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-block btn-danger" id="saveUpdateRecord">Submit</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@* Delete Confirmation Modal *@
+
+<div class="modal fade" id="deleteConfirm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="col-sm-12 modal-title text-center" align="center">
+                    Delete Result Record
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to delete this?</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary" data-dismiss="modal">Cancel</a>
+                <a href="#" class="btn btn-danger" onclick="ConfirmDelete()">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#LoadingStatus").html("Loading....");
+    $.get("/Admin/EntranceExamResults/GetResultList", null, DataBind);
+    function DataBind(ResultList) {
+        //This Code For Receive All Data From Controller And Show It In Client Side
+        var SetData = $("#SetResultList");
+        for (var i = 0; i < ResultList.length; i++) {
+            var Data = "<tr class='row_" + ResultList[i].StudentRoll + "'>" +
+                "<td>" + ResultList[i].StudentRoll + "</td>" +
+                "<td>" + ResultList[i].EntranceExamID + "</td>" +
+                "<td>" + ResultList[i].Mark + "</td>" +
+                "<td>" + "<a href='#' onclick='EditResultRecord(" + ResultList[i].StudentRoll + "," + ResultList[i].EntranceExamID + ")' >Update</a>" + "|" +
+                "<a href='#' onclick='DeleteResultRecord(" + ResultList[i].StudentRoll + "," + ResultList[i].EntranceExamID + ")'>Delete</a>" +
+                "</td>" +
+                "</tr>";
+            $("#LoadingStatus").remove();
+            SetData.append(Data);
+            $("#LoadingStatus").html(" ");
+        }
+    }
+
+    function AddNewResult(StudentRoll) {
+        $("#form")[0].reset();
+        $("#CreateModal").modal();
+    }
+
+    function EditResultRecord(StudentRoll, EntranceExamID) {
+        var url = "/Admin/EntranceExamResults/GetResultByID?StudentRoll=" + StudentRoll + "&EntranceExamID=" + EntranceExamID;
+        $("#UpdateModal").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $("#StudentRoll2").val(obj.StudentRoll);
+                $("#ExamID2").val(obj.EntranceExamID);
+                $("#Mark2").val(obj.Mark);
+            }
+        })
+    }
+
+    $("#saveCreateRecord").click(function () {
+        var data = $("#SubmitForm").serialize();
+        $.ajax({
+            type: "Post",
+            url: "/Admin/EntranceExamResults/SaveCreateData",
+            data: data,
+            success: function (result) {
+                alert("Success!..");
+                window.location.href = "/Admin/EntranceExamResults/Index";
+                $("#CreateModal").modal("hide");
+            }
+        })
+    })
+
+    $("#saveUpdateRecord").click(function () {
+        var data = $("#SubmitForm2").serialize();
+        $.ajax({
+            type: "Post",
+            url: "/Admin/EntranceExamResults/SaveUpdateData",
+            data: data,
+            success: function (result) {
+                alert("Success!..");
+                window.location.href = "/Admin/EntranceExamResults/Index";
+                $("#UpdateModal").modal("hide");
+            }
+        })
+    })
+
+    function DeleteResultRecord(StudentRoll, EntranceExamID) {
+        $("#StudentRoll").val(StudentRoll);
+        $("#ExamID").val(EntranceExamID);
+        $("#deleteConfirm").modal("show");
+    }
+
+    function ConfirmDelete() {
+        var StudentRoll = $("#StudentRoll").val();
+        var EntranceExamID = $("#ExamID").val();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/EntranceExamResults/DeleteResult?StudentRoll=" + StudentRoll + "&EntranceExamID=" + EntranceExamID,
+            success: function (result) {
+                alert("Success!..");
+                window.location.href = "/Admin/EntranceExamResults/Index";
+                $("#DeleteConfirm").modal("hide");
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        $("#dataTable").DataTable();
+        //$('.dataTables_length').addClass('bs-select');
+    });
+</script>

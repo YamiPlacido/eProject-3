@@ -84,6 +84,10 @@ C:\Users\LENOVO\source\repos\eProject-3\eProject3\eProject3\obj\Debug\eProject3.
 C:\Users\LENOVO\source\repos\eProject-3\eProject3\eProject3\obj\Debug\eProject3.pdb
 C:\Users\LENOVO\source\repos\eProject-3\eProject3\eProject3\obj\Debug\eProject3.Migrations.initials.resources
 C:\Users\LENOVO\source\repos\eProject-3\eProject3\eProject3\obj\Debug\eProject3.csproj.GenerateResource.cache
+C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.csprojAssemblyReference.cache
+C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.csproj.CoreCompileInputs.cache
+C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.dll
+C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.pdb
 C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\bin\eProject3.dll.config
 C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\bin\eProject3.dll
 C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\bin\eProject3.pdb
@@ -163,10 +167,6 @@ C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\bin\Antl
 C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\bin\System.Diagnostics.DiagnosticSource.xml
 C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\bin\Microsoft.AspNet.TelemetryCorrelation.xml
 C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.csprojAssemblyReference.cache
-C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.Migrations.initials.resources
-C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.csproj.GenerateResource.cache
-C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.csproj.CoreCompileInputs.cache
 C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.csproj.CopyComplete
-C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.dll
-C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.pdb
+C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.Migrations.initial.resources
+C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.csproj.GenerateResource.cache

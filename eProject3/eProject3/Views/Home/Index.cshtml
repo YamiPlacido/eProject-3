@@ -1,7 +1,34 @@
-﻿@{
+﻿@model IEnumerable<eProject3.Models.Course>
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<section class="cid-rlVa7X4FKB mbr-parallax-background" id="header2-1">
+
+    <div class="mbr-overlay" style="opacity: 0.5; background-color: rgb(35, 35, 35);"></div>
+    <div class="container align-center">
+        <div class="row justify-content-md-center">
+            <div class="mbr-white col-md-10">
+                <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-1">
+                    SYMPHONY TRAINING CENTRE
+                </h1>
+
+                <p class="mbr-text pb-3 mbr-fonts-style display-5">
+                    <em>
+                        &nbsp;SYMPHONY with more than 17 years of information technology training experience has become the preferred choice of learners and employers all around the world.
+                    </em>
+                </p>
+                <div class="mbr-section-btn"><a class="btn btn-md btn-white-outline display-4" href="https://mobirise.co">LEARN MORE</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="mbr-arrow hidden-sm-down" aria-hidden="true">
+        <a href="#next">
+            <i class="mbri-down mbr-iconfont"></i>
+        </a>
+    </div>
+</section>
+
 
 <section class="features9 cid-rlVnk5ZzYz" id="features9-9">
 
@@ -63,7 +90,7 @@
             <div class="card p-3 col-12 col-md-6 col-lg-4">
                 <div class="card-wrapper">
                     <div class="card-img">
-                        <img src="assets/images/background1.jpg" alt="Mobirise">
+                        <img src="~/Assets/client/assets/images/background1.jpg" alt="Mobirise">
                     </div>
                     <div class="card-box">
                         <h4 class="card-title mbr-fonts-style display-7">Modern and updated program</h4>
@@ -79,7 +106,7 @@
             <div class="card p-3 col-12 col-md-6 col-lg-4">
                 <div class="card-wrapper">
                     <div class="card-img">
-                        <img src="assets/images/background2.jpg" alt="Mobirise">
+                        <img src="~/Assets/client/assets/images/background2.jpg" alt="Mobirise">
                     </div>
                     <div class="card-box">
                         <h4 class="card-title mbr-fonts-style display-7">Diverse training subjects</h4>
@@ -95,7 +122,7 @@
             <div class="card p-3 col-12 col-md-6 col-lg-4">
                 <div class="card-wrapper">
                     <div class="card-img">
-                        <img src="assets/images/background3.jpg" alt="Mobirise">
+                        <img src="~/Assets/client/assets/images/background3.jpg" alt="Mobirise">
                     </div>
                     <div class="card-box">
                         <h4 class="card-title mbr-fonts-style display-7">Good learning conditions</h4>
@@ -126,30 +153,25 @@
                 <h2 class="align-left pb-3 mbr-fonts-style display-1">Our Courses</h2>
 
             </div>
-            <!--Card-1-->
-            <!-- Show available courses -->
+            @foreach (var item in Model)
+            {
+                <!--Card-->
                 <div class="card col-12 col-md-6 col-lg-3">
                     <div class="card-wrapper">
                         <div class="card-img">
-                            <img src="assets/images/product1.jpg" alt="Mobirise">
+                            <img src="@item.CourseImage" width="50" height="150">
                         </div>
                         <div class="card-box pb-md-5">
                             <h4 class="card-title mbr-fonts-style display-5">
-                                asdf
+                                @Html.DisplayFor(modelItem => item.CourseName)
                             </h4>
                             <p class="mbr-text mbr-fonts-style display-7">
-                                asdf
+                                @Html.DisplayFor(modelItem => item.CourseDescription)
                             </p>
-                            <!--Btn-->
-                            <div class="mbr-section-btn align-left">
-                                <a href="https://mobirise.co" class="btn btn-warning-outline display-4">
-
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
-            <!-- End show available courses -->
+            }
         </div>
     </div>
 </section>
@@ -177,4 +199,6 @@
         </div>
     </div>
 </section>
+
+
 

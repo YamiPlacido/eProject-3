@@ -16,8 +16,8 @@ namespace eProject3.Migrations
         protected override void Seed(eProject3.Models.eProject3Context context)
         {
             context.Courses.AddOrUpdate(x => x.CourseID,
-                new Course() { CourseID = 1, CourseName = "Course1", CourseDesctiption = "Course Description 1", CourseDuration = "1 month", CourseStartDate = DateTime.Parse("2019-03-24"), CourseEndDate = DateTime.Parse("2019-04-24"), CourseImage = "~/Image/CourseImage/course1" },
-                new Course() { CourseID = 2, CourseName = "Course2", CourseDesctiption = "Course Description 2", CourseDuration = "1 month", CourseStartDate = DateTime.Parse("2019-04-24"), CourseEndDate = DateTime.Parse("2019-05-24"), CourseImage = "~/Image/CourseImage/course2" }
+                new Course() { CourseID = 1, CourseName = "Course1", CourseDescription = "Course Description 1", CourseDuration = "1 month", CourseStartDate = DateTime.Parse("2019-03-24"), CourseEndDate = DateTime.Parse("2019-04-24"), CourseImage = "~/Image/CourseImage/course1" },
+                new Course() { CourseID = 2, CourseName = "Course2", CourseDescription = "Course Description 2", CourseDuration = "1 month", CourseStartDate = DateTime.Parse("2019-04-24"), CourseEndDate = DateTime.Parse("2019-05-24"), CourseImage = "~/Image/CourseImage/course2" }
                 );
             context.Classes.AddOrUpdate(x => x.ClassID,
                 new Class() { ClassID = 1, ClassName = "OnStandBy", ClassDescription = "On standby class", ClassEstimatedDuration = "6 month", ClassPaymentDeadline = DateTime.Parse("2019-03-24"), ClassTuitionFee = 0, ClassStartDate = DateTime.Parse("2019-03-24"), ClassEndDate = DateTime.Parse("2019-03-24") },

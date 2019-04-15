@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using eProject3.Common;
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -26,7 +28,9 @@
 </head>
 <body>
     <section class="menu cid-rlV9WsRH9U" once="menu" id="menu1-0">
-
+        @{
+            var user = Session["USER_SESSION"] as UserLogin;
+        }
         <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm">
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <div class="hamburger">
@@ -39,70 +43,67 @@
             <div class="menu-logo">
                 <div class="navbar-brand">
                     <span class="navbar-logo">
-                        <a href="https://mobirise.co">
+                        <a href="@Url.Action("Index","Home")">
                             <img src="~/Assets/client/assets/images/logo2.png" alt="Mobirise" style="height: 3.8rem;">
                         </a>
                     </span>
-                    <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-4" href="https://mobirise.co">SYMPHONY</a></span>
+                    <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-4" >SYMPHONY</a></span>
                 </div>
             </div>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
                     <li class="nav-item">
-                        <a class="nav-link link text-white display-7" href="https://mobirise.co">
+                        <a class="nav-link link text-white display-7" href="@Url.Action("Index","Courses")">
                             <span class="mbrib-database mbr-iconfont mbr-iconfont-btn"></span>
                             Courses
                         </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link link text-white display-7" href="https://mobirise.co"><span class="mbrib-edit mbr-iconfont mbr-iconfont-btn"></span>Entrance Exams</a></li>
-                    <li class="nav-item"><a class="nav-link link text-white display-7" href="https://mobirise.co"><span class="mbrib-question mbr-iconfont mbr-iconfont-btn"></span>FAQs</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link link text-white display-7" href="https://mobirise.co">
+                    <li class="nav-item"><a class="nav-link link text-white display-7" href="@Url.Action("Index","EntranceExams")"><span class="mbrib-edit mbr-iconfont mbr-iconfont-btn"></span>Entrance Exams</a></li>
+                    <li class="nav-item"><a class="nav-link link text-white display-7" href="@Url.Action("Index","FAQs")"><span class="mbrib-question mbr-iconfont mbr-iconfont-btn"></span>FAQs</a></li>
+                    @*<li class="nav-item">
+                        <a class="nav-link link text-white display-7" href="#">
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link link text-white display-7" href="https://mobirise.co">
+                        <a class="nav-link link text-white display-7" href="#">
                         </a>
-                    </li>
+                    </li>*@
                     <li class="nav-item">
-                        <a class="nav-link link text-white display-7" href="https://mobirise.co">
+                        <a class="nav-link link text-white display-7" href="@Url.Action("Index","AboutUs")">
                             <span class="mbrib-info mbr-iconfont mbr-iconfont-btn"></span>
 
                             About Us
                         </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link link text-white display-7" href="https://mobirise.co"><span class="mobi-mbri mobi-mbri-phone mbr-iconfont mbr-iconfont-btn"></span>Contact Us &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</a></li>
+                    <li class="nav-item"><a class="nav-link link text-white display-7" href="@Url.Action("Index","ContactUs")"><span class="mobi-mbri mobi-mbri-phone mbr-iconfont mbr-iconfont-btn"></span>Contact Us &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</a></li>
+                    @if (user != null)
+                    {
+                        <li class="nav-item dropdown open">
+                            <a class="nav-link link text-white dropdown-toggle display-7" data-toggle="dropdown-submenu" aria-expanded="true">
+                                <span class="mbri-user mbr-iconfont mbr-iconfont-btn"></span>
+                                Hi, @user.UserFirstName!
+                            </a><div class="dropdown-menu"><a class="text-white dropdown-item display-7" onclick="Logout()">Log out</a></div>
+                        </li>       
+                    }
                 </ul>
-                <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-success display-4" href="https://mobirise.co"><span class="mbrib-contact-form mbr-iconfont mbr-iconfont-btn"></span>Sign Up</a> <a class="btn btn-sm btn-info display-4" href="https://mobirise.co"><span class="mbri-user mbr-iconfont mbr-iconfont-btn"></span>Log In</a></div>
+                <div class="navbar-buttons mbr-section-btn">
+                    <a class="btn btn-sm btn-success display-4" onclick="CreateUser()"><span class="mbrib-contact-form mbr-iconfont mbr-iconfont-btn"></span>Sign Up</a>
+                    @if (user == null)
+                    {
+                        <a class="btn btn-sm btn-info display-4" onclick="Login()"><span class="mbri-user mbr-iconfont mbr-iconfont-btn"></span>Log In</a>
+                    }
+                    @*else
+                    {
+                        <a class="btn btn-sm btn-info display-4" onclick="Logout()"><span class="mbri-user mbr-iconfont mbr-iconfont-btn"></span>@user.UserName!</a>    
+                    }*@
+                </div>
+
             </div>
         </nav>
     </section>
-    <section class="engine"><a href="https://mobirise.info/e">how to make your own site for free</a></section><section class="cid-rlVa7X4FKB mbr-parallax-background" id="header2-1">
+    <section class="engine"><a href="#">how to make your own site for free</a></section>
 
-        <div class="mbr-overlay" style="opacity: 0.5; background-color: rgb(35, 35, 35);"></div>
-        <div class="container align-center">
-            <div class="row justify-content-md-center">
-                <div class="mbr-white col-md-10">
-                    <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-1">
-                        SYNPHONY TRAINING CENTRE
-                    </h1>
-
-                    <p class="mbr-text pb-3 mbr-fonts-style display-5">
-                        <em>
-                            &nbsp;SYMPHONY with more than 17 years of information technology training experience has become the preferred choice of learners and employers all around the world.
-                        </em>
-                    </p>
-                    <div class="mbr-section-btn"><a class="btn btn-md btn-white-outline display-4" href="https://mobirise.co">LEARN MORE</a></div>
-                </div>
-            </div>
-        </div>
-        <div class="mbr-arrow hidden-sm-down" aria-hidden="true">
-            <a href="#next">
-                <i class="mbri-down mbr-iconfont"></i>
-            </a>
-        </div>
-    </section>
-    @RenderBody()   
+    @RenderBody()
     <section class="cid-rlVpM59ty6" id="footer1-f">
 
 
@@ -110,7 +111,7 @@
             <div class="media-container-row content text-white">
                 <div class="col-12 col-md-3">
                     <div class="media-wrap">
-                        <a href="https://mobirise.co/">
+                        <a href="#">
                             <img src="~/Assets/client/assets/images/logo2.png" alt="Mobirise">
                         </a>
                     </div>
@@ -156,32 +157,32 @@
                     <div class="col-md-6">
                         <div class="social-list align-right">
                             <div class="soc-item">
-                                <a href="https://twitter.com/mobirise" target="_blank">
+                                <a href="#" target="_blank">
                                     <span class="socicon-twitter socicon mbr-iconfont mbr-iconfont-social"></span>
                                 </a>
                             </div>
                             <div class="soc-item">
-                                <a href="https://www.facebook.com/pages/Mobirise/1616226671953247" target="_blank">
+                                <a href="#" target="_blank">
                                     <span class="socicon-facebook socicon mbr-iconfont mbr-iconfont-social"></span>
                                 </a>
                             </div>
                             <div class="soc-item">
-                                <a href="https://www.youtube.com/c/mobirise" target="_blank">
+                                <a href="#" target="_blank">
                                     <span class="socicon-youtube socicon mbr-iconfont mbr-iconfont-social"></span>
                                 </a>
                             </div>
                             <div class="soc-item">
-                                <a href="https://instagram.com/mobirise" target="_blank">
+                                <a href="#" target="_blank">
                                     <span class="socicon-instagram socicon mbr-iconfont mbr-iconfont-social"></span>
                                 </a>
                             </div>
                             <div class="soc-item">
-                                <a href="https://plus.google.com/u/0/+Mobirise" target="_blank">
+                                <a href="#" target="_blank">
                                     <span class="socicon-googleplus socicon mbr-iconfont mbr-iconfont-social"></span>
                                 </a>
                             </div>
                             <div class="soc-item">
-                                <a href="https://www.behance.net/Mobirise" target="_blank">
+                                <a href="#" target="_blank">
                                     <span class="socicon-behance socicon mbr-iconfont mbr-iconfont-social"></span>
                                 </a>
                             </div>
@@ -191,6 +192,11 @@
             </div>
         </div>
     </section>
+
+    @{Html.RenderAction("_Register", "Layout");}
+    @{Html.RenderAction("_Login", "Layout");}
+    @{Html.RenderAction("_Logout", "Layout");}
+
 
     <script src="~/Assets/client/assets/web/assets/jquery/jquery.min.js"></script>
     <script src="~/Assets/client/assets/popper/popper.min.js"></script>
@@ -205,3 +211,4 @@
 
 </body>
 </html>
+

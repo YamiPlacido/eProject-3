@@ -1,0 +1,44 @@
+﻿@model eProject3.Models.LoginModel
+
+<div id="loginModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" align="center">
+                <h4 class="col-sm-12 modal-title text-center" align="center">
+                    <h id="">Log In</h>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "mbr-form form-with-styler" }))
+                {
+                    @Html.ValidationSummary(false, "", "error");
+                    <fieldset id="">
+                        <div class="form-group col-md-12">
+                            <label class="col-sm-10" for="email"><b>User Name:</b></label>
+                            @Html.TextBoxFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control display-7", @placeholder = "User Name", @autofocus = "autofocus" } })
+                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="col-sm-10" for="email"><b>User Password:</b></label>
+                            @Html.PasswordFor(model => model.Password, new { htmlAttributes = new { @class = "form-control display-7" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <button type="submit" class="btn btn-primary btn-form display-4">Login</button>
+                        </div>
+                    </fieldset>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function Login() {
+        $("#loginModal").modal();
+    }
+</script>

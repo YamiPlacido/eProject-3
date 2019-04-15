@@ -1,0 +1,206 @@
+﻿@model eProject3.Models.EntranceExam
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="Index.cshtml">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Entrance Exam</li>
+</ol>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        Entrance Exam
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <p>
+                    <a href="#" class="btn btn-info" onclick="AddNewExam(0)">New Entrance Exam</a> <br /><br />
+                </p>
+                <thead>
+                    <tr>
+                        <th>Entrance Exam</th>
+                        <th>Description</th>
+                        <th>Start Date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Entrance Exam</th>
+                        <th>Description</th>
+                        <th>Start Date</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                <tbody id="SetExamList">
+                    <tr id="LoadingStatus" style="color:red">
+                        <td class="row_1"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>
+
+@* Create Exam Modal *@
+
+<div id="MyModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" align="center">
+                <h4 class="col-sm-12 modal-title text-center" align="center">
+                    <h id="ModalTitle"></h>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal" id="form">
+                    <fieldset id="SubmitForm">
+                        @Html.HiddenFor(model => model.EntranceExamID, new { @id = "EntranceExamID" })
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Entrance Exam Name:</b></label>
+                            @Html.EditorFor(model => model.EntranceExamName, new { htmlAttributes = new { @id = "EntranceExamName", @class = "form-control", @placeholder = "Entrance Exam Name" } })
+                            @Html.ValidationMessageFor(model => model.EntranceExamName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Entrance Exam Description:</b></label>
+                            @Html.EditorFor(model => model.EntranceExamDescription, new { htmlAttributes = new { @id = "EntranceExamDescription", @class = "form-control", @placeholder = "Entrance Exam Description" } })
+                            @Html.ValidationMessageFor(model => model.EntranceExamDescription, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Entrance Exam Start Date:</b></label>
+                            @Html.EditorFor(model => model.EntranceExamStartDate, new { htmlAttributes = new { @id = "EntranceExamStartDate", @class = "form-control", @type = "text", @placeholder = "Entrance Exam Start Date", @onfocus = "(this.type='date')", @onblur = "(this.type='text')" } })
+                            @Html.ValidationMessageFor(model => model.EntranceExamStartDate, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-block btn-danger" id="saveExamRecord">Submit</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Delete Confirmation Modal *@
+
+<div class="modal fade" id="deleteConfirm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="col-sm-12 modal-title text-center" align="center">
+                    Delete Student Record
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to delete this?</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary" data-dismiss="modal">Cancel</a>
+                <a href="#" class="btn btn-danger" onclick="ConfirmDelete()">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#LoadingStatus").html("Loading....");
+    $.get("/Admin/EntranceExams/GetEntranceExamList", null, DataBind);
+    function DataBind(ExamList) {
+        //This Code For Receive All Data From Controller And Show It In Client Side
+        var SetData = $("#SetExamList");
+        for (var i = 0; i < ExamList.length; i++) {
+            var Data = "<tr class='row_" + ExamList[i].EntranceExamID + "'>" +
+                "<td>" + ExamList[i].EntranceExamName + "</td>" +
+                "<td>" + ExamList[i].EntranceExamDescription + "</td>" +
+                "<td>" + ExamList[i].EntranceExamStartDate + "</td>" +
+                "<td>" + "<a href='#' onclick='EditExamRecord(" + ExamList[i].EntranceExamID + ")' >Update</a>" + "|" +
+                "<a href='#' onclick='DeleteExamRecord(" + ExamList[i].EntranceExamID + ")'>Delete</a>" +
+                "</td>" +
+                "</tr>";
+            $("#LoadingStatus").remove();
+            SetData.append(Data);
+            $("#LoadingStatus").html(" ");
+        }
+    }
+
+    function AddNewExam(ExamID) {
+        $("#form")[0].reset();
+        $("#EntranceExamID").val(0);
+        $("#ModalTitle").html("Add New Entrance Exam");
+        $("#MyModal").modal();
+    }
+
+    function EditExamRecord(ExamID) {
+        var url = "/Admin/EntranceExams/GetEntranceExamByID?EntranceExamID=" + ExamID;
+        $("#ModalTitle").html("Update Entrance Exam Detail");
+        $("#MyModal").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $("#EntranceExamID").val(obj.EntranceExamID);
+                $("#EntranceExamName").val(obj.EntranceExamName);
+                $("#EntranceExamDescription").val(obj.EntranceExamDescription);
+                $("#EntranceExamStartDate").val(obj.EntranceExamStartDate);
+            }
+        })
+    }
+
+    $("#saveExamRecord").click(function () {
+        var data = $("#SubmitForm").serialize();
+        $.ajax({
+            type: "Post",
+            url: "/Admin/EntranceExams/SaveData",
+            data: data,
+            success: function (result) {
+                alert("Success!..");
+                window.location.href = "/Admin/EntranceExams/Index";
+                $("#MyModal").modal("hide");
+            }
+        })
+    })
+
+    function DeleteExamRecord(ExamID) {
+        $("#EntranceExamID").val(ExamID);
+        $("#deleteConfirm").modal("show");
+    }
+
+    function ConfirmDelete() {
+        var ExamID = $("#EntranceExamID").val();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/EntranceExams/DeleteEntranceExam?EntranceExamID=" + ExamID,
+            success: function (result) {
+                alert("Success!..");
+                window.location.href = "/Admin/EntranceExams/Index";
+                $("#DeleteConfirm").modal("hide");
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        $("#dataTable").DataTable();
+        //$('.dataTables_length').addClass('bs-select');
+    });
+</script>

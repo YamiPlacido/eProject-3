@@ -1,0 +1,32 @@
+﻿<div class="modal fade" id="logoutModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="col-sm-12 modal-title text-center" align="center">
+                    User Logging out
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to log out?</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-success" data-dismiss="modal">Cancel</a>
+                @Html.ActionLink("Confirm", "Logout", "Login","", new { @id = "logoutbtn", @class="btn btn-primary" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function Logout() {
+        $("#logoutModal").modal();
+    }
+
+    $(document).ready(function () {
+        $("#logoutbtn").on("click", function () {
+            alert("You have logged out!");
+        });
+
+    });
+</script>
