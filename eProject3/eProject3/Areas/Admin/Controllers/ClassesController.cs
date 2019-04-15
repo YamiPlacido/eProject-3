@@ -19,7 +19,14 @@ namespace eProject3.Areas.Admin.Controllers
         // GET: Admin/Classes
         public ActionResult Index()
         {
-            return View();
+            if (Session["USER_SESSION"] == null)
+            {
+                return RedirectToAction("Login", "Admins");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public async Task<JsonResult> GetClassList()

@@ -19,11 +19,18 @@ namespace eProject3.Areas.Admin.Controllers
         // GET: Admin/EntranceExamResults
         public ActionResult Index()
         {
-            List<Student> stLst = db.Students.ToList();
-            ViewBag.ListOfStudent = new SelectList(stLst, "StudentRoll", "StudentFirstName");
-            List<EntranceExam> ExLst = db.EntranceExams.ToList();
-            ViewBag.ListOfEntranceExam = new SelectList(ExLst, "EntranceExamID", "EntranceExamName");
-            return View();
+            if (Session["USER_SESSION"] == null)
+            {
+                return RedirectToAction("Login", "Admins");
+            }
+            else
+            {
+                List<Student> stLst = db.Students.ToList();
+                ViewBag.ListOfStudent = new SelectList(stLst, "StudentRoll", "StudentFirstName");
+                List<EntranceExam> ExLst = db.EntranceExams.ToList();
+                ViewBag.ListOfEntranceExam = new SelectList(ExLst, "EntranceExamID", "EntranceExamName");
+                return View();
+            }
         }
 
         public async Task<JsonResult> GetResultList()

@@ -19,9 +19,16 @@ namespace eProject3.Areas.Admin.Controllers
         // GET: Admin/Students
         public ActionResult Index()
         {
-            List<Class> ClassLst = db.Classes.ToList();
-            ViewBag.ListOfClass = new SelectList(ClassLst, "ClassID", "ClassName");
-            return View();
+            if (Session["USER_SESSION"] == null)
+            {
+                return RedirectToAction("Login", "Admins");
+            }
+            else
+            {
+                List<Class> ClassLst = db.Classes.ToList();
+                ViewBag.ListOfClass = new SelectList(ClassLst, "ClassID", "ClassName");
+                return View();
+            }
         }
 
         public async Task<JsonResult> GetStudentList()
