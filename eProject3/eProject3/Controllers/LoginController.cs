@@ -23,7 +23,7 @@ namespace eProject3.Controllers
             {
                 var f = new UserFunctions();
                 var result = f.Login(model.UserName, model.Password);
-                if (result)
+                if (result == 1)
                 {
                     var user = f.GetByID(model.UserName);
                     var userSession = new UserLogin();
@@ -31,22 +31,32 @@ namespace eProject3.Controllers
                     userSession.UserFirstName = user.UserFirstName;
                     userSession.UserID = user.UserID;
                     Session.Add(CommonConstants.USER_SESSION, userSession);
-                    //return Redirect(Request.UrlReferrer.ToString());
+                    TempData["Message"] = "Welcome, "+userSession.UserFirstName+"!";
                     return Redirect(Request.UrlReferrer.ToString());
-
+                }
+                else if(result == -1)
+                {
+                    ModelState.AddModelError("", "Wrong password.");
+                    TempData["Error"] = "Wrong password!";
+                }
+                else if(result == 0)
+                {
+                    ModelState.AddModelError("", "This account is not exist!");
+                    TempData["Error"] = "This account is not exist!";
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Wrong user name or password.");
+                    ModelState.AddModelError("", "Log In error");
+                    TempData["Error"] = "Log In error!";
                 }
             }
-            //return Redirect(Request.UrlReferrer.ToString());
             return Redirect(Request.UrlReferrer.ToString());
         }
 
         public ActionResult Logout()
         {
             Session.Remove(CommonConstants.USER_SESSION);
+            TempData["Message"] = "You have logged out!";
             return Redirect(Request.UrlReferrer.ToString());
         }
     }

@@ -81,7 +81,8 @@
             </div>
 
             <div class="modal-body">
-                <form class="form-horizontal" id="form">
+                @using (Html.BeginForm("SaveData", "Students", FormMethod.Post, new { @class = "form-horizontal", @id = "form" }))
+                {
                     <fieldset id="SubmitForm">
                         @Html.HiddenFor(model => model.StudentRoll, new { @id = "StudentRoll" })
                         <div class="form-group">
@@ -129,7 +130,7 @@
                             <button type="submit" class="btn btn-block btn-danger" id="saveStudentRecord">Submit</button>
                         </div>
                     </fieldset>
-                </form>
+                }
             </div>
         </div>
     </div>
@@ -210,19 +211,19 @@
         })
     }
 
-    $("#saveStudentRecord").click(function () {
-        var data = $("#SubmitForm").serialize();
-        $.ajax({
-            type: "Post",
-            url: "/Admin/Students/SaveData",
-            data: data,
-            success: function (result) {
-                alert("Success!..");
-                window.location.href = "/Admin/Students/Index";
-                $("#MyModal").modal("hide");
-            }
-        })
-    })
+    //$("#saveStudentRecord").click(function () {
+    //    var data = $("#SubmitForm").serialize();
+    //    $.ajax({
+    //        type: "Post",
+    //        url: "/Admin/Students/SaveData",
+    //        data: data,
+    //        success: function (result) {
+    //            alert("Success!..");
+    //            window.location.href = "/Admin/Students/Index";
+    //            $("#MyModal").modal("hide");
+    //        }
+    //    })
+    //})
 
     function DeleteStudentRecord(StudentRoll) {
         $("#StudentRoll").val(StudentRoll);
@@ -235,7 +236,6 @@
             type: "POST",
             url: "/Admin/Students/DeleteStudent?StudentRoll=" + StudentRoll,
             success: function (result) {
-                alert("Success!..");
                 window.location.href = "/Admin/Students/Index";
                 $("#DeleteConfirm").modal("hide");
             }

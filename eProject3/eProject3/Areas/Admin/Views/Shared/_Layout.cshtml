@@ -140,6 +140,51 @@
             </div>
         </div>
     </div>
+
+    <!-- success message modal -->
+    <div id="alertModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="col-sm-12 modal-title text-center" align="center">
+                        Message
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success" role="alert" id="alertMess">@TempData["Message"]</div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- error message modal -->
+    <div id="errorModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="col-sm-12 modal-title text-center" align="center">
+                        Message
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" role="alert">@TempData["Error"]</div>
+                </div>
+                <div class="modal-footer col-md-12">
+                    <div class="center-block">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap core JavaScript-->
     <script src="~/Assets/admin/vendor/jquery/jquery.min.js"></script>
     <script src="~/Assets/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -154,6 +199,29 @@
     <!-- Demo scripts for this page-->
     <script src="~/Assets/admin/js/demo/datatables-demo.js"></script>
     <script src="~/Assets/admin/js/demo/chart-area-demo.js"></script>
+
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Assets/client/assets/notify/notify.js"></script>
 </body>
 </html>
 
+@if (TempData["Message"] != null)
+{
+    <script>
+        //call bootstrap modal
+        $(document).ready(function () {
+            $("#alertModal").modal();
+        });
+    </script>
+}
+
+@if (TempData["Error"] != null)
+{
+    <script>
+        //call bootstrap modal
+        $(document).ready(function () {
+            $("#errorModal").modal();
+        });
+    </script>
+}

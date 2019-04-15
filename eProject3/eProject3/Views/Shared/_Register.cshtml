@@ -15,56 +15,57 @@
             </div>
 
             <div class="modal-body">
-                <form class="form-horizontal" id="form">
+               @using (Html.BeginForm("SaveData", "Users", FormMethod.Post, new { @class = "form-horizontal", @id = "form" }))
+                {
                     <fieldset id="SubmitForm">
                         @Html.HiddenFor(model => model.UserID, new { @id = "UserID" })
                         <div class="form-group">
                             <label class="col-sm-10" for="email"><b>User Name:</b></label>
                             @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @id = "UName", @class = "form-control", @placeholder = "User Name" } })
-                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-primary" })
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-10" for="email"><b>User Password:</b></label>
-                            @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @id = "UserPassword", @class = "form-control", @type = "password" } })
-                            @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @id = "UserPassword", @class = "form-control", @type = "password", @placeholder = "Password" } })
+                            @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-primary" })
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-10" for="email"><b>User First Name:</b></label>
                             @Html.EditorFor(model => model.UserFirstName, new { htmlAttributes = new { @id = "UserFirstName", @class = "form-control", @placeholder = "User First Name" } })
-                            @Html.ValidationMessageFor(model => model.UserFirstName, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.UserFirstName, "", new { @class = "text-primary" })
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-10" for="email"><b>User Last Name:</b></label>
                             @Html.EditorFor(model => model.UserLastName, new { htmlAttributes = new { @id = "UserLastName", @class = "form-control", @placeholder = "User Last Name" } })
-                            @Html.ValidationMessageFor(model => model.UserLastName, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.UserLastName, "", new { @class = "text-primary" })
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-10" for="email"><b>User Address:</b></label>
                             @Html.EditorFor(model => model.UserAddress, new { htmlAttributes = new { @id = "UserAddress", @class = "form-control", @placeholder = "User Address" } })
-                            @Html.ValidationMessageFor(model => model.UserAddress, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.UserAddress, "", new { @class = "text-primary" })
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-10" for="email"><b>User Date of Birth:</b></label>
                             @Html.EditorFor(model => model.UserDOB, new { htmlAttributes = new { @id = "UserDOB", @class = "form-control", @placeholder = "User Date of Birth", @type = "text", @onfocus = "(this.type='date')", @onblur = "(this.type='text')" } })
-                            @Html.ValidationMessageFor(model => model.UserDOB, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.UserDOB, "", new { @class = "text-primary" })
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-10" for="email"><b>User Email:</b></label>
                             @Html.EditorFor(model => model.UserEmail, new { htmlAttributes = new { @id = "UserEmail", @class = "form-control", @placeholder = "User Email", @type = "email" } })
-                            @Html.ValidationMessageFor(model => model.UserEmail, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.UserEmail, "", new { @class = "text-primary" })
                         </div>
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary col-sm-11" id="saveUserRecord">Submit</button>
                         </div>
                     </fieldset>
-                </form>
+                }
             </div>
         </div>
     </div>
@@ -77,17 +78,4 @@
         $("#MyModal").modal();
     }
 
-    $("#saveUserRecord").click(function () {
-        var data = $("#SubmitForm").serialize();
-        $.ajax({
-            type: "Post",
-            url: "/Users/SaveData",
-            data: data,
-            success: function (result) {
-                alert("Success!..");
-                window.location.href = "/Home/Index";
-                $("#MyModal").modal("hide");
-            }
-        })
-    })
 </script>

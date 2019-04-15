@@ -15,24 +15,23 @@ namespace eProject3.Controllers
     {
         private eProject3Context db = new eProject3Context();
 
-        public async Task<JsonResult> SaveData([Bind(Include = "UserID,UserName,UserPassword,UserFirstName,UserLastName,UserAddress,UserDOB,UserEmail,GroupID")] User user)
+        public async Task<ActionResult> SaveData([Bind(Include = "UserID,UserName,UserPassword,UserFirstName,UserLastName,UserAddress,UserDOB,UserEmail,GroupID")] User user)
         {
             user.GroupID = "USER";
-            var result = false;
             try
             {
                 if (ModelState.IsValid)
                 {
                     db.Users.Add(user);
                     await db.SaveChangesAsync();
-                    result = true;
+                    TempData["Message"] = "You account is registered successfully!";
                 }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Redirect(Request.UrlReferrer.ToString());
         }
     }
 }

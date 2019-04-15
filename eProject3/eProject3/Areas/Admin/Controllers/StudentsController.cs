@@ -52,9 +52,8 @@ namespace eProject3.Areas.Admin.Controllers
             return Json(value, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<JsonResult> SaveData([Bind(Include = "StudentRoll,StudentFirstName,StudentLastName,StudentAddress,StudentDOB,StudentEmail,StudentResult,ClassID")] Student student)
+        public async Task<ActionResult> SaveData([Bind(Include = "StudentRoll,StudentFirstName,StudentLastName,StudentAddress,StudentDOB,StudentEmail,StudentResult,ClassID")] Student student)
         {
-            var result = false;
             try
             {
                 if(student.StudentRoll >0)
@@ -63,7 +62,7 @@ namespace eProject3.Areas.Admin.Controllers
                     {
                         db.Entry(student).State = EntityState.Modified;
                         await db.SaveChangesAsync();
-                        result = true;
+                        TempData["Message"] = "Success!";
                     }
                 }
                 else
@@ -72,7 +71,7 @@ namespace eProject3.Areas.Admin.Controllers
                     {
                         db.Students.Add(student);
                         await db.SaveChangesAsync();
-                        result = true;
+                        TempData["Message"] = "Success!";
                     }
                 }
             }
@@ -80,7 +79,7 @@ namespace eProject3.Areas.Admin.Controllers
             {
                 throw ex;
             }
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Redirect(Request.UrlReferrer.ToString());
         }
 
         public async Task<JsonResult> DeleteStudent(int StudentRoll)
@@ -92,6 +91,7 @@ namespace eProject3.Areas.Admin.Controllers
                 db.Students.Remove(st);
                 await db.SaveChangesAsync();
                 result = true;
+                TempData["Message"] = "Success!";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }

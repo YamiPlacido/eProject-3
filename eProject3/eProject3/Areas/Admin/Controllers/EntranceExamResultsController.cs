@@ -61,42 +61,40 @@ namespace eProject3.Areas.Admin.Controllers
             return Json(value, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<JsonResult> SaveCreateData([Bind(Include = "StudentRoll,EntranceExamID,Mark")] EntranceExamResult entranceExamResult)
+        public async Task<ActionResult> SaveCreateData([Bind(Include = "StudentRoll,EntranceExamID,Mark")] EntranceExamResult entranceExamResult)
         {
-            var result = false;
             try
             {
                 if (ModelState.IsValid)
                 {
                     db.EntranceExamResults.Add(entranceExamResult);
                     await db.SaveChangesAsync();
-                    result = true;
+                    TempData["Message"] = "Success!";
                 }
             }
             catch(Exception ex)
             {
                 throw ex;
             }
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Redirect(Request.UrlReferrer.ToString());
         }
 
-        public async Task<JsonResult> SaveUpdateData([Bind(Include = "StudentRoll,EntranceExamID,Mark")] EntranceExamResult entranceExamResult)
+        public async Task<ActionResult> SaveUpdateData([Bind(Include = "StudentRoll,EntranceExamID,Mark")] EntranceExamResult entranceExamResult)
         {
-            var result = false;
             try
             {
                 if (ModelState.IsValid)
                 {
                     db.Entry(entranceExamResult).State = EntityState.Modified;
                     await db.SaveChangesAsync();
-                    result = true;
+                    TempData["Message"] = "Success!";
                 }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Redirect(Request.UrlReferrer.ToString());
         }
 
         public async Task<JsonResult> DeleteResult(int StudentRoll, int EntranceExamID)
@@ -108,6 +106,7 @@ namespace eProject3.Areas.Admin.Controllers
                 db.EntranceExamResults.Remove(rs);
                 await db.SaveChangesAsync();
                 result = true;
+                TempData["Message"] = "Success!";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }

@@ -50,9 +50,8 @@ namespace eProject3.Areas.Admin.Controllers
             return Json(value, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<JsonResult> SaveData([Bind(Include = "ClassID,ClassName,ClassDescription,ClassTuitionFee,ClassPaymentDeadline,ClassEstimatedDuration,ClassStartDate,ClassEndDate")] Class @class)
+        public async Task<ActionResult> SaveData([Bind(Include = "ClassID,ClassName,ClassDescription,ClassTuitionFee,ClassPaymentDeadline,ClassEstimatedDuration,ClassStartDate,ClassEndDate")] Class @class)
         {
-            var result = false;
             try
             {
                 if (@class.ClassID > 0)
@@ -61,7 +60,7 @@ namespace eProject3.Areas.Admin.Controllers
                     {
                         db.Entry(@class).State = EntityState.Modified;
                         await db.SaveChangesAsync();
-                        result = true;
+                        TempData["Message"] = "Success!";
                     }
                 }
                 else
@@ -70,7 +69,7 @@ namespace eProject3.Areas.Admin.Controllers
                     {
                         db.Classes.Add(@class);
                         await db.SaveChangesAsync();
-                        result = true;
+                        TempData["Message"] = "Success!";
                     }
                 }
             }
@@ -78,7 +77,7 @@ namespace eProject3.Areas.Admin.Controllers
             {
                 throw ex;
             }
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Redirect(Request.UrlReferrer.ToString());
         }
 
         public async Task<JsonResult> DeleteClass(int ClassID)
@@ -90,6 +89,7 @@ namespace eProject3.Areas.Admin.Controllers
                 db.Classes.Remove(@class);
                 await db.SaveChangesAsync();
                 result = true;
+                TempData["Message"] = "Success!";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }

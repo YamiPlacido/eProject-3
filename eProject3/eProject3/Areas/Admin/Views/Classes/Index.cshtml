@@ -80,7 +80,8 @@
             </div>
 
             <div class="modal-body">
-                <form class="form-horizontal" id="form">
+                @using (Html.BeginForm("SaveData", "Classes", FormMethod.Post, new { @class = "form-horizontal", @id = "form" }))
+                {
                     <fieldset id="SubmitForm">
                         @Html.HiddenFor(model => model.ClassID, new { @id = "ClassID" })
                         <div class="form-group">
@@ -128,7 +129,7 @@
                             <button type="submit" class="btn btn-block btn-danger" id="saveClassRecord">Submit</button>
                         </div>
                     </fieldset>
-                </form>
+                }
             </div>
         </div>
     </div>
@@ -207,19 +208,19 @@
         })
     }
 
-    $("#saveClassRecord").click(function () {
-        var data = $("#SubmitForm").serialize();
-        $.ajax({
-            type: "Post",
-            url: "/Admin/Classes/SaveData",
-            data: data,
-            success: function (result) {
-                alert("Success!..");
-                window.location.href = "/Admin/Classes/Index";
-                $("#MyModal").modal("hide");
-            }
-        })
-    })
+    //$("#saveClassRecord").click(function () {
+    //    var data = $("#SubmitForm").serialize();
+    //    $.ajax({
+    //        type: "Post",
+    //        url: "/Admin/Classes/SaveData",
+    //        data: data,
+    //        success: function (result) {
+    //            $.notify("Success!", "success");
+    //            window.location.href = "/Admin/Classes/Index";
+    //            $("#MyModal").modal("hide");
+    //        }
+    //    })
+    //})
 
     function DeleteClassRecord(ClassID) {
         $("#ClassID").val(ClassID);
@@ -232,7 +233,6 @@
             type: "POST",
             url: "/Admin/Classes/DeleteClass?ClassID=" + ClassID,
             success: function (result) {
-                alert("Success!..");
                 window.location.href = "/Admin/Classes/Index";
                 $("#DeleteConfirm").modal("hide");
             }

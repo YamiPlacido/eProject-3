@@ -46,9 +46,8 @@ namespace eProject3.Areas.Admin.Controllers
             return Json(value, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<JsonResult> SaveData([Bind(Include = "EntranceExamID,EntranceExamName,EntranceExamDescription,EntranceExamStartDate")] EntranceExam entranceExam)
+        public async Task<ActionResult> SaveData([Bind(Include = "EntranceExamID,EntranceExamName,EntranceExamDescription,EntranceExamStartDate")] EntranceExam entranceExam)
         {
-            var result = false;
             try
             {
                 if(entranceExam.EntranceExamID > 0)
@@ -57,8 +56,8 @@ namespace eProject3.Areas.Admin.Controllers
                     {
                         db.Entry(entranceExam).State = EntityState.Modified;
                         await db.SaveChangesAsync();
-                        result = true;
-                    }                
+                        TempData["Message"] = "Success!";
+                    }
                 }
                 else
                 {
@@ -66,7 +65,7 @@ namespace eProject3.Areas.Admin.Controllers
                     {
                         db.EntranceExams.Add(entranceExam);
                         await db.SaveChangesAsync();
-                        result = true;
+                        TempData["Message"] = "Success!";
                     }
                 }
             }
@@ -74,7 +73,7 @@ namespace eProject3.Areas.Admin.Controllers
             {
                 throw ex;
             }
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Redirect(Request.UrlReferrer.ToString());
         }
 
         public async Task<JsonResult> DeleteEntranceExam(int EntranceExamID)
@@ -86,6 +85,7 @@ namespace eProject3.Areas.Admin.Controllers
                 db.EntranceExams.Remove(ex);
                 await db.SaveChangesAsync();
                 result = true;
+                TempData["Message"] = "Success!";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }

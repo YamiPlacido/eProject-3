@@ -73,7 +73,8 @@
             </div>
 
             <div class="modal-body">
-                <form class="form-horizontal" id="form">
+                @using (Html.BeginForm("SaveCreateData", "EntranceExamResults", FormMethod.Post, new { @class = "form-horizontal", @id = "form" }))
+                {
                     <fieldset id="SubmitForm">
                         <div class="form-group">
                             <label class="col-sm-10"><b>Student Roll:</b></label>
@@ -97,8 +98,8 @@
                             <button type="submit" class="btn btn-block btn-danger" id="saveCreateRecord">Submit</button>
                         </div>
                     </fieldset>
-                    <span hidden id="action" />
-                </form>
+                <span hidden id="action" />
+                }
             </div>
         </div>
     </div>
@@ -117,7 +118,8 @@
                 </div>
 
                 <div class="modal-body">
-                    <form class="form-horizontal" id="form2">
+                    @using (Html.BeginForm("SaveUpdateData", "EntranceExamResults", FormMethod.Post, new { @class = "form-horizontal", @id = "form2" }))
+                    {
                         <fieldset id="SubmitForm2">
                             <div class="form-group">
                                 <label class="col-sm-10"><b>Student Roll:</b></label>
@@ -141,7 +143,7 @@
                                 <button type="submit" class="btn btn-block btn-danger" id="saveUpdateRecord">Submit</button>
                             </div>
                         </fieldset>
-                    </form>
+                    }
                 </div>
             </div>
         </div>
@@ -210,33 +212,33 @@
         })
     }
 
-    $("#saveCreateRecord").click(function () {
-        var data = $("#SubmitForm").serialize();
-        $.ajax({
-            type: "Post",
-            url: "/Admin/EntranceExamResults/SaveCreateData",
-            data: data,
-            success: function (result) {
-                alert("Success!..");
-                window.location.href = "/Admin/EntranceExamResults/Index";
-                $("#CreateModal").modal("hide");
-            }
-        })
-    })
+    //$("#saveCreateRecord").click(function () {
+    //    var data = $("#SubmitForm").serialize();
+    //    $.ajax({
+    //        type: "Post",
+    //        url: "/Admin/EntranceExamResults/SaveCreateData",
+    //        data: data,
+    //        success: function (result) {
+    //            alert("Success!..");
+    //            window.location.href = "/Admin/EntranceExamResults/Index";
+    //            $("#CreateModal").modal("hide");
+    //        }
+    //    })
+    //})
 
-    $("#saveUpdateRecord").click(function () {
-        var data = $("#SubmitForm2").serialize();
-        $.ajax({
-            type: "Post",
-            url: "/Admin/EntranceExamResults/SaveUpdateData",
-            data: data,
-            success: function (result) {
-                alert("Success!..");
-                window.location.href = "/Admin/EntranceExamResults/Index";
-                $("#UpdateModal").modal("hide");
-            }
-        })
-    })
+    //$("#saveUpdateRecord").click(function () {
+    //    var data = $("#SubmitForm2").serialize();
+    //    $.ajax({
+    //        type: "Post",
+    //        url: "/Admin/EntranceExamResults/SaveUpdateData",
+    //        data: data,
+    //        success: function (result) {
+    //            alert("Success!..");
+    //            window.location.href = "/Admin/EntranceExamResults/Index";
+    //            $("#UpdateModal").modal("hide");
+    //        }
+    //    })
+    //})
 
     function DeleteResultRecord(StudentRoll, EntranceExamID) {
         $("#StudentRoll").val(StudentRoll);
@@ -251,7 +253,6 @@
             type: "POST",
             url: "/Admin/EntranceExamResults/DeleteResult?StudentRoll=" + StudentRoll + "&EntranceExamID=" + EntranceExamID,
             success: function (result) {
-                alert("Success!..");
                 window.location.href = "/Admin/EntranceExamResults/Index";
                 $("#DeleteConfirm").modal("hide");
             }

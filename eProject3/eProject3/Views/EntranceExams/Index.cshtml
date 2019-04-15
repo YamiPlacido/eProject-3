@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<eProject3.Models.EntranceExam>
+@using eProject3.Common;
 
 @{
     ViewBag.Title = "Index";
@@ -6,7 +7,9 @@
 }
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-
+@{
+    var user = Session["USER_SESSION"] as UserLogin;
+}
 
 <section class="engine"><a href="https://mobirise.info/r">free bootstrap templates</a></section>
 <section class="header1 cid-rm0fKItS81" id="header1-n">
@@ -45,7 +48,7 @@
         </div>
     </div>
 </section>
-<section class="mbr-section form3 cid-rm0hIYogHj" id="form3-r">
+<section class="mbr-section form3 cid-rm0hIYogHj" id="Result">
     <div class="container">
         <div class="row justify-content-center">
             <div class="title col-12 col-lg-8">
@@ -69,9 +72,26 @@
                 </div>
                 <div class="dragArea row">
                     <div class="form-group col" data-for="email">
-                        <input placeholder="Student Roll" required="required" class="form-control display-7" id="SearchID">
+                        @if (user != null)
+                        {
+                            <input placeholder="Student Roll" required="required" class="form-control display-7" id="SearchID">
+                        }
+                        else
+                        {
+                            <input disabled placeholder="You must log in to use this feature." required="required" class="form-control display-7" id="SearchID">
+                        }
                     </div>
-                    <div class="col-auto input-group-btn"><button class="btn btn-primary display-4" id="SearchResult" onclick="ShowResultRecord()">SEARCH</button></div>
+                    <div class="col-auto input-group-btn">
+                        @if (user != null)
+                        {
+                            <button class="btn btn-primary display-4" id="SearchResult" onclick="ShowResultRecord()">SEARCH</button>
+                        }
+                        else
+                        {
+                            <button disabled class="btn btn-primary display-4" id="SearchResult" onclick="ShowResultRecord()">SEARCH</button>
+                        }
+                    </div>
+
                 </div>
                 @*</form>*@<!---Formbuilder Form--->
             </div>
@@ -117,8 +137,6 @@
 
 </section>
 
-
-
 <script>
     $("#LoadingStatus").html("Loading....");
     $.get("/EntranceExams/GetEntranceExamList", null, DataBind);
@@ -155,7 +173,6 @@
             type: "GET",
             url: "/EntranceExamResults/GetResultByID?StudentRoll=" + StudentRoll,
             success: function (data) {
-                alert("Result found!..");
                 var obj = JSON.parse(data);
                 $("#StudentRoll").text(obj.StudentRoll);
                 $("#ExamID").text(obj.EntranceExamID);

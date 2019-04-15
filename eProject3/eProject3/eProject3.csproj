@@ -139,6 +139,7 @@
     <Compile Include="Areas\Admin\Controllers\EntranceExamsController.cs" />
     <Compile Include="Areas\Admin\Controllers\StudentsController.cs" />
     <Compile Include="Common\CommonConstants.cs" />
+    <Compile Include="Common\Encryptor.cs" />
     <Compile Include="Common\UserLogin.cs" />
     <Compile Include="Controllers\AboutUsController.cs" />
     <Compile Include="Controllers\ContactUsController.cs" />

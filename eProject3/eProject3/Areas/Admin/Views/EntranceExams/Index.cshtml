@@ -69,7 +69,8 @@
             </div>
 
             <div class="modal-body">
-                <form class="form-horizontal" id="form">
+                @using (Html.BeginForm("SaveData", "EntranceExams", FormMethod.Post, new { @class = "form-horizontal", @id = "form" }))
+                {
                     <fieldset id="SubmitForm">
                         @Html.HiddenFor(model => model.EntranceExamID, new { @id = "EntranceExamID" })
                         <div class="form-group">
@@ -94,7 +95,7 @@
                             <button type="submit" class="btn btn-block btn-danger" id="saveExamRecord">Submit</button>
                         </div>
                     </fieldset>
-                </form>
+                }
             </div>
         </div>
     </div>
@@ -167,19 +168,19 @@
         })
     }
 
-    $("#saveExamRecord").click(function () {
-        var data = $("#SubmitForm").serialize();
-        $.ajax({
-            type: "Post",
-            url: "/Admin/EntranceExams/SaveData",
-            data: data,
-            success: function (result) {
-                alert("Success!..");
-                window.location.href = "/Admin/EntranceExams/Index";
-                $("#MyModal").modal("hide");
-            }
-        })
-    })
+    //$("#saveExamRecord").click(function () {
+    //    var data = $("#SubmitForm").serialize();
+    //    $.ajax({
+    //        type: "Post",
+    //        url: "/Admin/EntranceExams/SaveData",
+    //        data: data,
+    //        success: function (result) {
+    //            alert("Success!..");
+    //            window.location.href = "/Admin/EntranceExams/Index";
+    //            $("#MyModal").modal("hide");
+    //        }
+    //    })
+    //})
 
     function DeleteExamRecord(ExamID) {
         $("#EntranceExamID").val(ExamID);
@@ -192,7 +193,6 @@
             type: "POST",
             url: "/Admin/EntranceExams/DeleteEntranceExam?EntranceExamID=" + ExamID,
             success: function (result) {
-                alert("Success!..");
                 window.location.href = "/Admin/EntranceExams/Index";
                 $("#DeleteConfirm").modal("hide");
             }
