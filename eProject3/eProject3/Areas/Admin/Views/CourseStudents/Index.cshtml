@@ -1,0 +1,240 @@
+﻿@model eProject3.Models.CourseStudent
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="Index.cshtml">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Register Course</li>
+</ol>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        Register Course
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <p>
+                    <a href="#" class="btn btn-info" onclick="AddNewCourseStudent(0)">Register New Course</a> <br /><br />
+                </p>
+                <thead>
+                    <tr>
+                        <th>Course ID</th>
+                        <th>Student Roll</th>
+                        <th>Lab Fee</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Course ID</th>
+                        <th>Student Roll</th>
+                        <th>Lab Fee</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                <tbody id="SetCourseStudentList">
+                    <tr id="LoadingStatus" style="color:red">
+                        <td class="row_1">aaaa</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>
+
+@* Create Course Student Modal *@
+
+<div id="CreateModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" align="center">
+                <h4 class="col-sm-12 modal-title text-center" align="center">
+                    <h id="ModalTitle">Register New Course</h>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.BeginForm("SaveCreateData", "CourseStudents", FormMethod.Post, new { @class = "form-horizontal", @id = "form" }))
+                {
+                    <fieldset id="SubmitForm">
+                        <div class="form-group">
+                            <label class="col-sm-10"><b>Course ID:</b></label>
+                            @Html.DropDownListFor(model => model.CourseID, ViewBag.ListOfCourse as SelectList, "--Select Course--", new { @id = "CourseID", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CourseID, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Student Roll:</b></label>
+                            @Html.DropDownListFor(model => model.StudentRoll, ViewBag.ListOfStudent as SelectList, "--Select Student--", new { @id = "StudentRoll", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.StudentRoll, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Lab Fee:</b></label>
+                            @Html.EditorFor(model => model.LabFee, new { htmlAttributes = new { @id = "Lab", @class = "form-control", @placeholder = "Lab Fee" } })
+                            @Html.ValidationMessageFor(model => model.LabFee, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-block btn-danger" id="saveCreateRecord">Submit</button>
+                        </div>
+                    </fieldset>
+                    <span hidden id="action" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Update Course Student Modal *@
+
+<div id="UpdateModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" align="center">
+                <h4 class="col-sm-12 modal-title text-center" align="center">
+                    <h id="ModalTitle2">Update Course Registration</h>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.BeginForm("SaveUpdateData", "CourseStudents", FormMethod.Post, new { @class = "form-horizontal", @id = "form2" }))
+                {
+                    <fieldset id="SubmitForm2">
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Course ID:</b></label>
+                            @Html.DropDownListFor(model => model.CourseID, ViewBag.ListOfCourse as SelectList, "--Select Course--", new { @id = "CourseID2", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CourseID, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10"><b>Student Roll:</b></label>
+                            @Html.DropDownListFor(model => model.StudentRoll, ViewBag.ListOfStudent as SelectList, "--Select Student--", new { @id = "StudentRoll2", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.StudentRoll, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10" for="email"><b>Lab Fee:</b></label>
+                            @Html.EditorFor(model => model.LabFee, new { htmlAttributes = new { @id = "Lab2", @class = "form-control", @placeholder = "Lab Fee" } })
+                            @Html.ValidationMessageFor(model => model.LabFee, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-block btn-danger" id="saveUpdateRecord">Submit</button>
+                        </div>
+                    </fieldset>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Delete Confirmation Modal *@
+
+<div class="modal fade" id="deleteConfirm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="col-sm-12 modal-title text-center" align="center">
+                    Delete Course Registration Record
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to delete this?</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary" data-dismiss="modal">Cancel</a>
+                <a href="#" class="btn btn-danger" onclick="ConfirmDelete()">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#LoadingStatus").html("Loading....");
+    $.get("/Admin/CourseStudents/GetCourseStudentList", null, DataBind);
+    function DataBind(CourseStudentList) {
+        //This Code For Receive All Data From Controller And Show It In Client Side
+        var SetData = $("#SetCourseStudentList");
+        for (var i = 0; i < CourseStudentList.length; i++) {
+            var Data = "<tr class='row_" + CourseStudentList[i].CourseID + "'>" +
+                "<td>" + CourseStudentList[i].CourseID + "</td>" +
+                "<td>" + CourseStudentList[i].StudentRoll + "</td>" +
+                "<td>" + CourseStudentList[i].LabFee + "</td>" +
+                "<td>" + "<a href='#' onclick='EditCourseStudentRecord(" + CourseStudentList[i].CourseID + "," + CourseStudentList[i].StudentRoll + ")' >Update</a>" + "|" +
+                "<a href='#' onclick='DeleteCourseStudentRecord(" + CourseStudentList[i].CourseID + "," + CourseStudentList[i].StudentRoll + ")'>Delete</a>" +
+                "</td>" +
+                "</tr>";
+            $("#LoadingStatus").remove();
+            SetData.append(Data);
+            $("#LoadingStatus").html(" ");
+        }
+    }
+
+    function AddNewCourseStudent(StudentRoll) {
+        $("#form")[0].reset();
+        $("#CreateModal").modal();
+    }
+
+    function EditCourseStudentRecord(CourseID, StudentRoll) {
+        var url = "/Admin/CourseStudents/GetCourseStudentByID?CourseID=" + CourseID + "&StudentRoll=" + StudentRoll;
+        $("#UpdateModal").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $("#CourseID2").val(obj.CourseID);
+                $("#StudentRoll2").val(obj.StudentRoll);
+                $("#Lab2").val(obj.LabFee);
+            }
+        })
+    }
+
+    function DeleteCourseStudentRecord(CourseID, StudentRoll) {
+        $("#StudentRoll").val(StudentRoll);
+        $("#CourseID").val(CourseID);
+        $("#deleteConfirm").modal("show");
+    }
+
+    function ConfirmDelete() {
+        var StudentRoll = $("#StudentRoll").val();
+        var CourseID = $("#CourseID").val();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/CourseStudents/DeleteCourseStudent?CourseID=" + CourseID + "&StudentRoll=" + StudentRoll,
+            success: function (result) {
+                window.location.href = "/Admin/CourseStudents/Index";
+                $("#DeleteConfirm").modal("hide");
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        $("#dataTable").DataTable();
+        //$('.dataTables_length').addClass('bs-select');
+    });
+</script>
+
+

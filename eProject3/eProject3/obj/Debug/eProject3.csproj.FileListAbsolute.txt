@@ -82,8 +82,6 @@ C:\Users\LENOVO\source\repos\eProject-3\eProject3\eProject3\obj\Debug\eProject3.
 C:\Users\LENOVO\source\repos\eProject-3\eProject3\eProject3\obj\Debug\eProject3.csproj.CopyComplete
 C:\Users\LENOVO\source\repos\eProject-3\eProject3\eProject3\obj\Debug\eProject3.dll
 C:\Users\LENOVO\source\repos\eProject-3\eProject3\eProject3\obj\Debug\eProject3.pdb
-C:\Users\LENOVO\source\repos\eProject-3\eProject3\eProject3\obj\Debug\eProject3.Migrations.initials.resources
-C:\Users\LENOVO\source\repos\eProject-3\eProject3\eProject3\obj\Debug\eProject3.csproj.GenerateResource.cache
 C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.csprojAssemblyReference.cache
 C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.csproj.CoreCompileInputs.cache
 C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.dll
@@ -170,3 +168,5 @@ C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\bin\Micr
 C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.csproj.CopyComplete
 C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.Migrations.initial.resources
 C:\Users\vhxho\OneDrive\Documents\GitHub\eProject-3\eProject3\eProject3\obj\Debug\eProject3.csproj.GenerateResource.cache
+C:\Users\LENOVO\source\repos\eProject-3\eProject3\eProject3\obj\Debug\eProject3.Migrations.initial.resources
+C:\Users\LENOVO\source\repos\eProject-3\eProject3\eProject3\obj\Debug\eProject3.csproj.GenerateResource.cache

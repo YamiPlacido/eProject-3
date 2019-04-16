@@ -19,7 +19,7 @@ namespace eProject3.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
-            if (Session["USER_SESSION"] == null)
+            if (Session["ADMIN_SESSION"] == null)
             {
                 return RedirectToAction("Login", "Admins");
             }

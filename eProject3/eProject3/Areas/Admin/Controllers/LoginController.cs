@@ -23,17 +23,16 @@ namespace eProject3.Areas.Admin.Controllers
             {
                 var f = new UserFunctions();
                 var result = f.Login(model.UserName, model.Password);
-                if (result)
+                if (result == 1)
                 {
                     var user = f.GetByID(model.UserName);
                     var userSession = new UserLogin();
                     userSession.UserName = user.UserName;
                     userSession.UserFirstName = user.UserFirstName;
                     userSession.UserID = user.UserID;
-                    Session.Add(CommonConstants.USER_SESSION, userSession);
+                    Session.Add(CommonConstants.ADMIN_SESSION, userSession);
                     //return Redirect(Request.UrlReferrer.ToString());
                     return RedirectToAction("Index","Admins");
-
                 }
                 else
                 {
@@ -46,7 +45,7 @@ namespace eProject3.Areas.Admin.Controllers
 
         public ActionResult Logout()
         {
-            Session.Remove(CommonConstants.USER_SESSION);
+            Session.Remove(CommonConstants.ADMIN_SESSION);
             return RedirectToAction("Login", "Admins");
         }
     }
