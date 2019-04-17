@@ -216,7 +216,6 @@
     <Content Include="Areas\Admin\Views\FAQs\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ContactUss\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AboutUss\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Login.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Logout.cshtml" />
     <Content Include="Areas\Admin\Views\CourseStudents\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
