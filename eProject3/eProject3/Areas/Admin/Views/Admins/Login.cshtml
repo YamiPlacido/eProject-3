@@ -23,23 +23,24 @@
         <div class="card card-login mx-auto mt-5">
             <div class="card-header">Login</div>
             <div class="card-body">
-                @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "mbr-form form-with-styler" }))
+                @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "form-horizontal" }))
                 {
+                    <span class="text-danger">Please log in before proceeding further.</span>
                     @Html.ValidationSummary(false, "", "error");
                     <fieldset id="">
-                        <div class="form-group col-md-12">
+                        <div class="form-group">
                             <label class="col-sm-10" for="email"><b>User Name:</b></label>
                             @Html.TextBoxFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control display-7", @placeholder = "User Name", @autofocus = "autofocus" } })
                             @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                         </div>
 
-                        <div class="form-group col-md-12">
+                        <div class="form-group">
                             <label class="col-sm-10" for="email"><b>User Password:</b></label>
                             @Html.PasswordFor(model => model.Password, new { htmlAttributes = new { @class = "form-control display-7" } })
                             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                         </div>
 
-                        <div class="form-group col-md-12">
+                        <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-form display-4">Login</button>
                         </div>
                     </fieldset>
@@ -52,6 +53,9 @@
     <script src="~/Assets/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="~/Assets/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+    @*Validation*@
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>11
 </body>
 </html>
 
