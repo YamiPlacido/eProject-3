@@ -13,12 +13,12 @@ namespace eProject3.Models
         public int Fid { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
-        [StringLength(500)]
+        [StringLength(2000)]
         [Column(TypeName = "VARCHAR")]
         public string Fquestion { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
-        [StringLength(500)]
+        [StringLength(2000)]
         [Column(TypeName = "VARCHAR")]
         public string Fanswer { get; set; }
     }

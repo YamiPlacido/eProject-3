@@ -13,12 +13,12 @@ namespace eProject3.Models
         public int Cid { get; set; }
 
         [Required]
-        [StringLength(200)]
+        [StringLength(2000)]
         [Column(TypeName = "VARCHAR")]
         public string Clocation { get; set; }
 
         [Required]
-        [StringLength(200)]
+        [StringLength(1000)]
         [Column(TypeName = "VARCHAR")]
         public string Caddress { get; set; }
 

@@ -107,8 +107,8 @@ namespace eProject3.Migrations
                 c => new
                     {
                         Cid = c.Int(nullable: false, identity: true),
-                        Clocation = c.String(nullable: false, maxLength: 200, unicode: false),
-                        Caddress = c.String(nullable: false, maxLength: 200, unicode: false),
+                        Clocation = c.String(nullable: false, maxLength: 2000, unicode: false),
+                        Caddress = c.String(nullable: false, maxLength: 1000, unicode: false),
                         Cemail = c.String(nullable: false, maxLength: 100, unicode: false),
                     })
                 .PrimaryKey(t => t.Cid);
@@ -168,8 +168,8 @@ namespace eProject3.Migrations
                 c => new
                     {
                         Fid = c.Int(nullable: false, identity: true),
-                        Fquestion = c.String(nullable: false, maxLength: 500, unicode: false),
-                        Fanswer = c.String(nullable: false, maxLength: 500, unicode: false),
+                        Fquestion = c.String(nullable: false, maxLength: 2000, unicode: false),
+                        Fanswer = c.String(nullable: false, maxLength: 2000, unicode: false),
                     })
                 .PrimaryKey(t => t.Fid);
             
