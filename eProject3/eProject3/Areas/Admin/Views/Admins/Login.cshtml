@@ -25,7 +25,7 @@
             <div class="card-body">
                 @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "form-horizontal" }))
                 {
-                    <span class="text-danger">Please log in before proceeding further.</span>
+                    <span class="text-danger">Please log in to proceed further.</span>
                     @Html.ValidationSummary(false, "", "error");
                     <fieldset id="">
                         <div class="form-group">
