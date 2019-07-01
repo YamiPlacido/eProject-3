@@ -1,2 +1,2 @@
 # eProject-3
-eProject semester 3
+Web Application Project - Education
